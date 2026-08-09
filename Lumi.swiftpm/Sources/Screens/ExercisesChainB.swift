@@ -33,6 +33,9 @@ struct Ex6View: View {
                     .padding(.bottom, 8)
 
                 placeholderField("Напиши поддержку для друга…", text: $support)
+                    .onChange(of: support) { _, newValue in
+                        if newValue.count > 200 { support = String(newValue.prefix(200)) }
+                    }
                 Text("\(support.count) / 200")
                     .font(.lumi(10, weight: .semibold))
                     .foregroundColor(LumiColor.textDim)
@@ -41,9 +44,15 @@ struct Ex6View: View {
 
                 Spacer(minLength: 8)
                 tipRow(text: "А теперь попробуй сказать эти же слова себе. Ты этого заслуживаешь.", icon: "heart.text.square")
-                PrimaryButton(title: "Готово") { app.go(.ex7) }
+                PrimaryButton(
+                    title: "Готово",
+                    isEnabled: !support.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.ex7)
+                }
             }
         }
+        .onAppear { support = "" }
     }
 }
 
@@ -159,6 +168,7 @@ struct Ex7View: View {
 
 struct Ex8View: View {
     @EnvironmentObject var app: AppState
+    @State private var letter: String = ""
 
     var body: some View {
         DetailScreen {
@@ -171,18 +181,28 @@ struct Ex8View: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
 
-                VStack(alignment: .leading, spacing: 14) {
+                VStack(alignment: .leading, spacing: 10) {
                     Image(systemName: "envelope.fill")
                         .font(.system(size: 20))
                         .foregroundColor(LumiColor.purple1)
                     Text("Дорогой друг,")
                         .font(.lumi(13, weight: .heavy))
                         .foregroundColor(Color(hex: 0x3a2f5c))
-                    ForEach(0..<3, id: \.self) { _ in
-                        Rectangle().fill(Color(hex: 0x3a2f5c).opacity(0.25)).frame(height: 1)
-                            .padding(.top, 10)
+                    ZStack(alignment: .topLeading) {
+                        if letter.isEmpty {
+                            Text("Напиши здесь несколько тёплых строк…")
+                                .font(.lumi(12.5, weight: .medium))
+                                .foregroundColor(Color(hex: 0x3a2f5c).opacity(0.45))
+                                .padding(.top, 8)
+                                .allowsHitTesting(false)
+                        }
+                        TextEditor(text: $letter)
+                            .font(.lumi(12.5, weight: .medium))
+                            .foregroundColor(Color(hex: 0x3a2f5c))
+                            .scrollContentBackground(.hidden)
+                            .background(Color.clear)
                     }
-                    Spacer(minLength: 0)
+                    .frame(minHeight: 110)
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity, minHeight: 180, alignment: .topLeading)
@@ -191,9 +211,15 @@ struct Ex8View: View {
 
                 tipRow(text: "Сохрани это письмо. К нему можно вернуться позже.", icon: "envelope.open.fill")
                     .padding(.top, 14)
-                PrimaryButton(title: "Отправить письмо") { app.go(.ex9) }
+                PrimaryButton(
+                    title: "Отправить письмо",
+                    isEnabled: !letter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.ex9)
+                }
             }
         }
+        .onAppear { letter = "" }
     }
 }
 
@@ -345,8 +371,14 @@ struct Ex10View: View {
 
                 Spacer(minLength: 8)
                 tipRow(text: "Спасибо! Ты живёшь в согласии со своими ценностями.", icon: "heart.circle.fill")
-                PrimaryButton(title: "Готово") { app.go(.lessonComplete) }
+                PrimaryButton(
+                    title: "Готово",
+                    isEnabled: !reflection.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.lessonComplete)
+                }
             }
         }
+        .onAppear { reflection = "" }
     }
 }

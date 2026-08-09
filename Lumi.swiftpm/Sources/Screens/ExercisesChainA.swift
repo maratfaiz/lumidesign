@@ -3,10 +3,14 @@ import SwiftUI
 /// The "critic → fact" mini-exercise chain (ex1…ex5). Reachable from the
 /// prototype's own screen list, not from a natural in-app link — same as in
 /// the original, where these live alongside (not inside) the main lesson flow.
+///
+/// Unlike the prototype (which always shows the same sample thought), this
+/// port threads the user's actual pick/typing through `AppState.criticThought`
+/// and `criticFactRewrite` so ex2…ex5 react to what was entered in ex1/ex4.
 private let ex1Phrases = [
-    "«Ты опять всё испортил»",
-    "«Ничего у тебя не получится»",
-    "«Ты недостаточно хорош(а)»",
+    "Ты опять всё испортил",
+    "Ничего у тебя не получится",
+    "Ты недостаточно хорош(а)",
 ]
 
 struct Ex1View: View {
@@ -36,8 +40,11 @@ struct Ex1View: View {
 
                 VStack(spacing: 8) {
                     ForEach(Array(ex1Phrases.enumerated()), id: \.offset) { index, phrase in
-                        Button { selected = index } label: {
-                            Text(phrase)
+                        Button {
+                            selected = index
+                            app.criticThought = phrase
+                        } label: {
+                            Text("«\(phrase)»")
                                 .font(.lumi(13, weight: .semibold))
                                 .foregroundColor(Color(hex: 0xe5e0f7))
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -54,7 +61,10 @@ struct Ex1View: View {
                                 .stroke(selected == index ? LumiColor.purple1 : Color.white.opacity(0.1), lineWidth: selected == index ? 2 : 1)
                         )
                     }
-                    Button { selected = 3 } label: {
+                    Button {
+                        selected = 3
+                        if ex1Phrases.contains(app.criticThought) { app.criticThought = "" }
+                    } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "plus")
                             Text("Написать свою мысль")
@@ -68,12 +78,26 @@ struct Ex1View: View {
                     .buttonStyle(.plain)
                     .background(RoundedRectangle(cornerRadius: 14).fill(LumiColor.purple1.opacity(0.12)))
                     .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [5])).foregroundColor(LumiColor.purple1.opacity(0.4)))
+
+                    if selected == 3 {
+                        placeholderField("Напиши свою мысль…", text: $app.criticThought)
+                    }
                 }
 
                 Spacer(minLength: 12)
                 tipRow(text: "Просто запиши её. Сейчас мы ничего не оцениваем.", icon: "pencil.and.scribble")
-                PrimaryButton(title: "Продолжить →") { app.go(.ex2) }
+                PrimaryButton(
+                    title: "Продолжить →",
+                    isEnabled: !app.criticThought.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.ex2)
+                }
             }
+        }
+        .onAppear {
+            selected = nil
+            app.criticThought = ""
+            app.criticFactRewrite = ""
         }
     }
 }
@@ -97,7 +121,7 @@ struct Ex2View: View {
                         .fill(RadialGradient(colors: [LumiColor.purple1.opacity(0.22), LumiColor.purple1.opacity(0.04)], center: .center, startRadius: 0, endRadius: 110))
                         .overlay(Circle().stroke(LumiColor.purple1.opacity(0.3), lineWidth: 1))
                         .frame(width: 220, height: 220)
-                    Text("«Я опять всё испортил»")
+                    Text("«\(app.displayCriticThought)»")
                         .font(.lumi(16, weight: .heavy))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
@@ -165,7 +189,7 @@ struct Ex3View: View {
                     }
                     .padding(.bottom, 16)
 
-                    Text("«Ты опять всё испортил»")
+                    Text("«\(app.displayCriticThought)»")
                         .font(.lumi(20, weight: .heavy))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
@@ -182,7 +206,7 @@ struct Ex3View: View {
                         )
                         .padding(.bottom, 16)
                 } else {
-                    Text("«Ты опять всё испортил»")
+                    Text("«\(app.displayCriticThought)»")
                         .font(.lumi(14, weight: .heavy))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
@@ -223,7 +247,6 @@ struct Ex3View: View {
 
 struct Ex4View: View {
     @EnvironmentObject var app: AppState
-    @State private var fact: String = ""
 
     var body: some View {
         DetailScreen {
@@ -240,7 +263,7 @@ struct Ex4View: View {
                     Text("МЫСЛЬ КРИТИКА")
                         .font(.lumi(10, weight: .bold))
                         .foregroundColor(LumiColor.textTertiary)
-                    Text("«Ты опять всё испортил»")
+                    Text("«\(app.displayCriticThought)»")
                         .font(.lumi(13, weight: .heavy))
                         .foregroundColor(.white)
                 }
@@ -259,12 +282,17 @@ struct Ex4View: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 6)
 
-                placeholderField("Напиши здесь…", text: $fact)
+                placeholderField("Напиши здесь…", text: $app.criticFactRewrite)
                     .padding(.bottom, 16)
 
                 Spacer(minLength: 8)
                 tipRow(text: "Представь, что ты журналист. Только факты.", icon: "newspaper")
-                PrimaryButton(title: "Проверить") { app.go(.ex5) }
+                PrimaryButton(
+                    title: "Проверить",
+                    isEnabled: !app.criticFactRewrite.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.ex5)
+                }
             }
         }
     }
@@ -286,7 +314,7 @@ struct Ex5View: View {
 
                 HStack(spacing: 10) {
                     MascotPlaceholder(size: 44, systemImage: "text.bubble")
-                    Text("«Я опять всё испортил»")
+                    Text("«\(app.displayCriticThought)»")
                         .font(.lumi(13, weight: .heavy))
                         .foregroundColor(Color(hex: 0xe5e0f7))
                     Spacer(minLength: 0)
@@ -299,7 +327,7 @@ struct Ex5View: View {
                     .foregroundColor(LumiColor.textTertiary)
                     .padding(.bottom, 8)
 
-                Text("Я замечаю мысль, что «Я опять всё испортил»")
+                Text("Я замечаю мысль, что «\(app.displayCriticThought)»")
                     .font(.lumi(13, weight: .heavy))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -308,6 +336,22 @@ struct Ex5View: View {
                     .background(RoundedRectangle(cornerRadius: 14).fill(LumiColor.purple1.opacity(0.2)))
                     .overlay(RoundedRectangle(cornerRadius: 14).stroke(LumiColor.purple1, lineWidth: 1.5))
                     .padding(.bottom, 14)
+
+                if !app.criticFactRewrite.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("А ТВОЙ ФАКТ")
+                            .font(.lumi(10, weight: .bold))
+                            .foregroundColor(Color(hex: 0x7fe0a8))
+                        Text(app.criticFactRewrite)
+                            .font(.lumi(13, weight: .semibold))
+                            .foregroundColor(.white)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(13)
+                    .background(RoundedRectangle(cornerRadius: 14).fill(Color(hex: 0x7fe0a8).opacity(0.1)))
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: 0x7fe0a8).opacity(0.35), lineWidth: 1))
+                    .padding(.bottom, 14)
+                }
 
                 Spacer(minLength: 8)
                 tipRow(text: "Мысль есть, но её не нужно принимать за правду.", icon: "sparkles", size: 34)

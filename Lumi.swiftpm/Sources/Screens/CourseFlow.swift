@@ -394,18 +394,34 @@ struct ExerciseIntroView: View {
                 .buttonStyle(.plain)
                 .padding(.bottom, 12)
 
-                PrimaryButton(title: "Далее") { app.go(.lessonComplete) }
+                PrimaryButton(
+                    title: "Далее",
+                    isEnabled: !thought.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ) {
+                    app.go(.lessonComplete)
+                }
             }
         }
+        .onAppear { thought = "" }
     }
 
     private func chip(_ text: String) -> some View {
-        Text(text)
-            .font(.lumi(11, weight: .semibold))
-            .foregroundColor(Color(hex: 0xe5e0f7))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 9)
-            .lumiCard(radius: 14)
+        Button { thought = text } label: {
+            Text(text)
+                .font(.lumi(11, weight: .semibold))
+                .foregroundColor(Color(hex: 0xe5e0f7))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 9)
+        }
+        .buttonStyle(.plain)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(thought == text ? LumiColor.purple1.opacity(0.18) : LumiColor.cardFillLight)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(thought == text ? LumiColor.purple1 : LumiColor.cardBorder, lineWidth: thought == text ? 2 : 1)
+        )
     }
 }
 

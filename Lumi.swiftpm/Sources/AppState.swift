@@ -73,6 +73,19 @@ final class AppState: ObservableObject {
     // celebration (very first lesson) or back to the course page.
     @Published var firstLessonFlow: Bool = false
 
+    // MARK: Ex1…Ex5 — the critic-thought chain shares one thought + its
+    // fact-rewrite across all five screens, so later screens react to what
+    // the user actually picked/wrote instead of showing fixed sample text.
+    @Published var criticThought: String = ""
+    @Published var criticFactRewrite: String = ""
+
+    /// Falls back to a sample thought if ex2…ex5 are opened directly (e.g. from
+    /// "Все экраны") without going through ex1 first.
+    var displayCriticThought: String {
+        let trimmed = criticThought.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? "Ты опять всё испортил" : criticThought
+    }
+
     // MARK: Ex3 — "факт или оценка" drag classification
     @Published var ex3Checked: Bool = false
     @Published var ex3DragOffset: CGFloat = 0
