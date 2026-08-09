@@ -20,17 +20,9 @@ struct MainTabView: View {
                     case .home:
                         HomeContentView()
                     case .catalog:
-                        PlaceholderTabView(
-                            title: "Курсы",
-                            subtitle: "Список курсов скоро появится здесь",
-                            icon: "text.book.closed"
-                        )
+                        CatalogListView()
                     case .profile:
-                        PlaceholderTabView(
-                            title: "Профиль",
-                            subtitle: "Профиль и статистика скоро появятся здесь",
-                            icon: "person.crop.circle"
-                        )
+                        ProfileContentView()
                     }
                 }
                 .padding(.horizontal, 20)
@@ -40,12 +32,6 @@ struct MainTabView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             TabBarView(selected: selectedTab)
-        }
-        .sheet(isPresented: Binding(
-            get: { app.comingSoonTitle != nil },
-            set: { isPresented in if !isPresented { app.comingSoonTitle = nil } }
-        )) {
-            ComingSoonSheet(title: app.comingSoonTitle ?? "")
         }
     }
 }
@@ -109,30 +95,5 @@ struct TabBarView: View {
             .padding(.top, 8)
         }
         .buttonStyle(.plain)
-    }
-}
-
-struct PlaceholderTabView: View {
-    let title: String
-    let subtitle: String
-    let icon: String
-
-    var body: some View {
-        VStack(spacing: 14) {
-            Spacer(minLength: 60)
-            Image(systemName: icon)
-                .font(.system(size: 40))
-                .foregroundStyle(LumiGradient.primary)
-            Text(title)
-                .font(.system(size: 22, weight: .black, design: .rounded))
-                .foregroundColor(.white)
-            Text(subtitle)
-                .font(.lumi(13, weight: .semibold))
-                .foregroundColor(LumiColor.textSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 30)
-            Spacer(minLength: 60)
-        }
-        .frame(maxWidth: .infinity)
     }
 }

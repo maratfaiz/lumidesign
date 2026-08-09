@@ -75,7 +75,10 @@ struct PlanReadyView: View {
                 .lumiCard()
 
                 Spacer()
-                PrimaryButton(title: "Начать первый урок →") { app.go(.streakStart) }
+                PrimaryButton(title: "Начать первый урок →") {
+                    app.firstLessonFlow = true
+                    app.go(.lesson)
+                }
             }
             .padding(20)
         }

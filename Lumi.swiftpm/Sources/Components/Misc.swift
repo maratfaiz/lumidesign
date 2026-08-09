@@ -11,7 +11,7 @@ struct ProgressBarView: View {
                 RoundedRectangle(cornerRadius: 4).fill(Color.white.opacity(0.1))
                 RoundedRectangle(cornerRadius: 4)
                     .fill(LumiGradient.primary)
-                    .frame(width: max(0, geo.size.width * progress))
+                    .frame(width: max(0, geo.size.width * CGFloat(progress)))
             }
         }
     }
@@ -69,32 +69,106 @@ struct RatingCircle: View {
     }
 }
 
-/// Bottom sheet shown when tapping into a part of the app that isn't
-/// built yet (lesson content, breathing, meditation, wardrobe, ...).
-struct ComingSoonSheet: View {
-    let title: String
+/// Shared chrome for every screen reached by drilling in from Home/Catalog/Profile —
+/// background, an optional "←" back button (matching the prototype's `showBack`
+/// rule), and 20pt content padding.
+struct DetailScreen<Content: View>: View {
+    @EnvironmentObject var app: AppState
+    var showBack: Bool
+    var showStars: Bool
+    var content: Content
+
+    init(showBack: Bool = true, showStars: Bool = false, @ViewBuilder content: () -> Content) {
+        self.showBack = showBack
+        self.showStars = showStars
+        self.content = content()
+    }
 
     var body: some View {
-        VStack(spacing: 14) {
-            Capsule().fill(Color.white.opacity(0.15)).frame(width: 40, height: 5)
-                .padding(.top, 10)
-            Image(systemName: "hourglass")
-                .font(.system(size: 36))
-                .foregroundStyle(LumiGradient.primary)
-                .padding(.top, 8)
-            Text(title)
-                .font(.lumi(18, weight: .heavy))
-                .foregroundColor(.white)
-            Text("Этот экран скоро появится в приложении.")
-                .font(.lumi(13, weight: .semibold))
-                .foregroundColor(LumiColor.textSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 30)
-            Spacer()
+        ZStack(alignment: .top) {
+            LumiBackground()
+            if showStars {
+                StarField(stars: StarPresets.planLoading)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                if showBack {
+                    Button { app.goBack() } label: {
+                        Text("←")
+                            .font(.lumi(15, weight: .bold))
+                            .foregroundColor(LumiColor.textBody)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, 2)
+                }
+                // A GeometryReader-sized min-height keeps Spacer()-based centering
+                // working for short screens while still scrolling ones that overflow,
+                // matching the prototype's `overflow-y:auto` content area.
+                GeometryReader { geo in
+                    ScrollView {
+                        content
+                            .padding(.horizontal, 20)
+                            .padding(.top, 14)
+                            .padding(.bottom, 20)
+                            .frame(minHeight: geo.size.height)
+                    }
+                }
+            }
         }
-        .frame(maxWidth: .infinity)
-        .background(LumiColor.bgDeep.ignoresSafeArea())
-        .presentationDetents([.fraction(0.35)])
-        .presentationDragIndicator(.hidden)
+    }
+}
+
+/// Small pill-style toggle button used on breathing/affirmation/meditation
+/// control rows (repeat, sound, speed, info…).
+struct ControlPillButton: View {
+    let icon: String
+    let label: String
+    var isActive: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: icon).font(.system(size: 14, weight: .semibold))
+                Text(label).font(.lumi(10, weight: .bold))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 11)
+        }
+        .foregroundColor(isActive ? LumiColor.purpleLight : LumiColor.textTertiary)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(isActive ? LumiColor.purple1.opacity(0.16) : Color.white.opacity(0.05))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(isActive ? LumiColor.purple1.opacity(0.4) : Color.white.opacity(0.1), lineWidth: 1)
+        )
+        .buttonStyle(.plain)
+    }
+}
+
+/// Circular transport-control button (play/pause, prev/next) used by the
+/// breathing/affirmations/meditation screens.
+struct TransportButton: View {
+    let systemImage: String
+    var size: CGFloat = 52
+    var prominent: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.system(size: size * 0.38, weight: .semibold))
+                .foregroundColor(prominent ? .white : LumiColor.textBody)
+                .frame(width: size, height: size)
+        }
+        .background(
+            Circle().fill(prominent ? AnyShapeStyle(LumiGradient.primary) : AnyShapeStyle(Color.white.opacity(0.06)))
+        )
+        .overlay(Circle().stroke(Color.white.opacity(prominent ? 0 : 0.12), lineWidth: 1))
+        .shadow(color: prominent ? LumiColor.purple1.opacity(0.4) : .clear, radius: 10, y: 4)
+        .buttonStyle(.plain)
     }
 }

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum Concern: CaseIterable, Identifiable, Hashable {
     case selfCritic, boundaries, notGoodEnough, anxiety, other
@@ -72,4 +73,36 @@ enum Goal: CaseIterable, Identifiable, Hashable {
         case .other: return "questionmark.circle"
         }
     }
+}
+
+enum SkinRarity: String {
+    case base, rare, special
+
+    var label: String {
+        switch self {
+        case .base: return "Обычный"
+        case .rare: return "Редкий"
+        case .special: return "Эпический"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .base: return LumiColor.textSecondary
+        case .rare: return Color(hex: 0x5b9fff)
+        case .special: return Color(hex: 0xff6ec7)
+        }
+    }
+}
+
+struct Skin: Identifiable {
+    let key: String
+    let name: String
+    let category: SkinRarity
+    var price: Int? = nil
+    var locked: Bool = false
+    var lessonsCur: Int = 0
+    var lessonsReq: Int = 0
+
+    var id: String { key }
 }

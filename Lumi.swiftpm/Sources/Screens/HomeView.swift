@@ -11,7 +11,7 @@ struct HomeContentView: View {
                     .foregroundColor(.white)
                 HStack(spacing: 8) {
                     statChip(icon: "flame.fill", text: "\(app.streakDays)", color: LumiColor.orange1)
-                    Button { app.soon("Магазин") } label: {
+                    Button { app.go(.shop) } label: {
                         statChip(icon: "star.fill", text: "\(app.gems)", color: LumiColor.yellow)
                     }
                     .buttonStyle(.plain)
@@ -19,7 +19,7 @@ struct HomeContentView: View {
                 }
             }
 
-            Button { app.soon("Внешний вид Луми") } label: {
+            Button { app.go(.customize) } label: {
                 MascotPlaceholder(size: 150, systemImage: "headphones")
                     .frame(maxWidth: .infinity)
             }
@@ -35,7 +35,7 @@ struct HomeContentView: View {
                 Text("Урок 3. Замечаем критику · 2/5")
                     .font(.lumi(12, weight: .semibold))
                     .foregroundColor(LumiColor.textSecondary)
-                PrimaryButton(title: "Продолжить урок →") { app.soon("Урок") }
+                PrimaryButton(title: "Продолжить урок →") { app.go(.lesson) }
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,12 +46,12 @@ struct HomeContentView: View {
                 .foregroundColor(LumiColor.textTertiary)
 
             HStack(spacing: 8) {
-                dailyTile(icon: "moon", title: "Дыхание") { app.soon("Дыхание") }
-                dailyTile(icon: "heart.fill", title: "Аффирмации") { app.soon("Аффирмации") }
-                dailyTile(icon: "sun.max", title: "Медитация") { app.soon("Медитация") }
+                dailyTile(icon: "moon", title: "Дыхание") { app.go(.breathing) }
+                dailyTile(icon: "heart.fill", title: "Аффирмации") { app.go(.affirmations) }
+                dailyTile(icon: "sun.max", title: "Медитация") { app.go(.beforeSleep) }
             }
 
-            Button { app.soon("Магазин") } label: {
+            Button { app.go(.shop) } label: {
                 HStack(spacing: 12) {
                     ZStack {
                         Circle().fill(LumiColor.purple1.opacity(0.2)).frame(width: 40, height: 40)
