@@ -27,7 +27,7 @@ struct ProfileContentView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(RadialGradient(colors: [Color(hex: 0x2a1d52), Color(hex: 0x150f30)], center: .init(x: 0.5, y: 0.3), startRadius: 0, endRadius: 180))
                 VStack {
-                    MascotPlaceholder(size: 130, systemImage: "sparkles")
+                    MascotPlaceholder(size: 130, systemImage: "sparkles", assetName: "mascot-profile")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 22)
