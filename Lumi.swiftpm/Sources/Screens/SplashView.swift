@@ -20,7 +20,7 @@ struct SplashView: View {
                     .foregroundColor(LumiColor.textSecondary)
                     .padding(.bottom, 18)
 
-                MascotPlaceholder(size: 140)
+                MascotPlaceholder(size: 140, assetName: "mascot-splash")
                     .padding(.bottom, 22)
 
                 Text("Загружаем Луми...")
