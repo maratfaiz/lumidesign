@@ -20,7 +20,7 @@ struct HomeContentView: View {
             }
 
             Button { app.go(.customize) } label: {
-                MascotPlaceholder(size: 150, systemImage: "headphones")
+                MascotPlaceholder(size: 150, systemImage: "headphones", assetName: "mascot-home")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.plain)

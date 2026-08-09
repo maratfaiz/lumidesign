@@ -183,7 +183,7 @@ struct CourseDetailView: View {
                     .font(.lumi(11, weight: .semibold))
                     .foregroundColor(LumiColor.textTertiary)
 
-                MascotPlaceholder(size: 150, systemImage: "headphones")
+                MascotPlaceholder(size: 150, systemImage: "headphones", assetName: "mascot-home")
                     .frame(maxWidth: .infinity)
 
                 HStack {
@@ -274,7 +274,7 @@ struct LessonView: View {
                     )
                     .padding(.bottom, 18)
 
-                MascotPlaceholder(size: 110, systemImage: "headphones")
+                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-home")
                     .padding(.bottom, 12)
 
                 Text("Урок 3: Замечаем критику")

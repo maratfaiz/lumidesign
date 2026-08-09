@@ -108,7 +108,7 @@ struct Ob3View: View {
                     .padding(.top, 6)
                     .padding(.bottom, 10)
 
-                MascotPlaceholder(size: 110, systemImage: "headphones")
+                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-home")
                     .padding(.bottom, 20)
 
                 VStack(spacing: 8) {
