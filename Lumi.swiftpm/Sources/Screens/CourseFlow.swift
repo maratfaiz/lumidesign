@@ -360,7 +360,7 @@ struct ExerciseIntroView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 10)
 
-                HStack(spacing: 8) {
+                VStack(spacing: 8) {
                     chip("Ты опять всё испортил")
                     chip("У тебя ничего не получится")
                 }

@@ -50,13 +50,21 @@ struct Ex6View: View {
 private struct Ex7Quality {
     let icon: String
     let title: String
-    let phrase: String
 }
 
+// Qualities in their displayed (top-row) order.
 private let ex7Qualities: [Ex7Quality] = [
-    .init(icon: "heart.fill", title: "Доброта", phrase: "«Я отношусь к себе с теплом и заботой, а не с критикой»"),
-    .init(icon: "globe", title: "Общая человечность", phrase: "«Я не один(а) со своими трудностями. Все иногда ошибаются»"),
-    .init(icon: "person.fill", title: "Осознанность", phrase: "«Я замечаю свои чувства и принимаю их без осуждения»"),
+    .init(icon: "heart.fill", title: "Доброта"),
+    .init(icon: "globe", title: "Общая человечность"),
+    .init(icon: "person.fill", title: "Осознанность"),
+]
+
+// Phrases in their displayed (bottom-row) order — intentionally not aligned
+// index-for-index with the qualities above; see `ex7CorrectBottomForTop`.
+private let ex7Phrases: [String] = [
+    "«Я замечаю свои чувства и принимаю их без осуждения»",
+    "«Я отношусь к себе с теплом и заботой, а не с критикой»",
+    "«Я не один(а) со своими трудностями. Все иногда ошибаются»",
 ]
 
 struct Ex7View: View {
@@ -134,9 +142,9 @@ struct Ex7View: View {
     }
 
     private func bottomCard(_ index: Int) -> some View {
-        let matched = app.ex7Matched[index]
+        let matched = app.ex7BottomMatched(index)
         return Button { app.ex7SelectBottom(index) } label: {
-            Text(ex7Qualities[index].phrase)
+            Text(ex7Phrases[index])
                 .font(.lumi(11.5, weight: .semibold))
                 .foregroundColor(Color(hex: 0xe5e0f7))
                 .frame(maxWidth: .infinity, alignment: .leading)

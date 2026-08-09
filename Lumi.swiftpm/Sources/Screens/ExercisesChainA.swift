@@ -92,7 +92,7 @@ struct Ex2View: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 18)
 
-                ZStack {
+                ZStack(alignment: .topLeading) {
                     Circle()
                         .fill(RadialGradient(colors: [LumiColor.purple1.opacity(0.22), LumiColor.purple1.opacity(0.04)], center: .center, startRadius: 0, endRadius: 110))
                         .overlay(Circle().stroke(LumiColor.purple1.opacity(0.3), lineWidth: 1))
@@ -102,8 +102,21 @@ struct Ex2View: View {
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
+                        .frame(width: 220, height: 220)
+
+                    // Trailing bubbles, echoing the prototype's "thought bubble" tail.
+                    Circle().fill(LumiColor.purple1.opacity(0.16)).overlay(Circle().stroke(LumiColor.purple1.opacity(0.28), lineWidth: 1))
+                        .frame(width: 14, height: 14)
+                        .offset(x: 156, y: 224)
+                    Circle().fill(LumiColor.purple1.opacity(0.18)).overlay(Circle().stroke(LumiColor.purple1.opacity(0.3), lineWidth: 1))
+                        .frame(width: 22, height: 22)
+                        .offset(x: 176, y: 244)
+                    Circle().fill(LumiColor.purple1.opacity(0.2)).overlay(Circle().stroke(LumiColor.purple1.opacity(0.32), lineWidth: 1))
+                        .frame(width: 34, height: 34)
+                        .offset(x: 200, y: 268)
                 }
-                .padding(.bottom, 10)
+                .frame(width: 220, height: 220)
+                .padding(.bottom, 44)
 
                 Spacer(minLength: 8)
                 tipRow(text: "Это мысль. Она не обязана быть фактом.", icon: "face.dashed")

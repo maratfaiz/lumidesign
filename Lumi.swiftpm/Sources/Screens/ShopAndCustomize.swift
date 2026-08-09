@@ -307,7 +307,7 @@ struct CustomizeView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .offset(x: 4, y: -4)
                     }
-                    if skin.locked {
+                    if skin.locked || (skin.price != nil && !equipped) {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(hex: 0x0a0819).opacity(0.55))
                             .overlay(Image(systemName: "lock.fill").foregroundColor(LumiColor.textTertiary))

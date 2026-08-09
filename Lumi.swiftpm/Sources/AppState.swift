@@ -180,17 +180,27 @@ final class AppState: ObservableObject {
 
     // MARK: Ex7 matching game
 
+    /// The three phrase cards are shown in a fixed order that intentionally doesn't
+    /// line up positionally with the quality cards above them — top quality `i`'s
+    /// correct phrase sits at bottom index `ex7CorrectBottomForTop[i]`, matching
+    /// the prototype's fixed (not randomized) phrase order.
+    let ex7CorrectBottomForTop = [1, 2, 0]
+
     func ex7SelectTop(_ index: Int) {
         guard !ex7Matched[index] else { return }
         ex7SelectedTop = index
     }
 
-    func ex7SelectBottom(_ index: Int) {
-        guard let top = ex7SelectedTop, !ex7Matched[index] else { return }
-        if top == index {
-            ex7Matched[index] = true
+    func ex7SelectBottom(_ bottomIndex: Int) {
+        guard let top = ex7SelectedTop else { return }
+        if ex7CorrectBottomForTop[top] == bottomIndex {
+            ex7Matched[top] = true
         }
         ex7SelectedTop = nil
+    }
+
+    func ex7BottomMatched(_ bottomIndex: Int) -> Bool {
+        ex7Matched.indices.contains { ex7Matched[$0] && ex7CorrectBottomForTop[$0] == bottomIndex }
     }
 
     var ex7AllMatched: Bool { ex7Matched.allSatisfy { $0 } }

@@ -292,7 +292,60 @@ struct StatisticsView: View {
                 }
                 .padding(14)
                 .lumiCard(fill: Color.white.opacity(0.05), border: Color.white.opacity(0.1))
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Июль · календарь серии").font(.lumi(12, weight: .bold)).foregroundColor(Color(hex: 0xe5e0f7))
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
+                        ForEach(weekDays, id: \.self) { day in
+                            Text(day).font(.system(size: 8)).foregroundColor(LumiColor.textDim).frame(maxWidth: .infinity)
+                        }
+                        ForEach(calendarDays) { day in
+                            Text(day.label)
+                                .font(.lumi(10, weight: day.emphasis ? .heavy : .regular))
+                                .foregroundColor(day.textColor)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 30)
+                                .background(RoundedRectangle(cornerRadius: 6).fill(day.fill))
+                                .overlay(RoundedRectangle(cornerRadius: 6).stroke(day.borderColor, lineWidth: day.borderWidth))
+                        }
+                    }
+                    HStack(spacing: 12) {
+                        calendarLegend(color: LumiColor.purple1, label: "пройден урок")
+                        calendarLegend(color: LumiColor.blueChip.opacity(0.4), label: "заморозка")
+                    }
+                }
+                .padding(14)
+                .lumiCard(fill: Color.white.opacity(0.05), border: Color.white.opacity(0.1))
             }
+        }
+    }
+
+    private struct CalendarDay: Identifiable {
+        let id: Int
+        let label: String
+        let fill: AnyShapeStyle
+        let textColor: Color
+        let borderColor: Color
+        let borderWidth: CGFloat
+        let emphasis: Bool
+    }
+
+    private var calendarDays: [CalendarDay] {
+        [
+            CalendarDay(id: 0, label: "25", fill: AnyShapeStyle(Color.white.opacity(0.05)), textColor: LumiColor.textDim, borderColor: .clear, borderWidth: 0, emphasis: false),
+            CalendarDay(id: 1, label: "26", fill: AnyShapeStyle(LumiGradient.primary), textColor: .white, borderColor: .clear, borderWidth: 0, emphasis: true),
+            CalendarDay(id: 2, label: "27", fill: AnyShapeStyle(LumiGradient.primary), textColor: .white, borderColor: .clear, borderWidth: 0, emphasis: true),
+            CalendarDay(id: 3, label: "28", fill: AnyShapeStyle(LumiGradient.primary), textColor: .white, borderColor: .clear, borderWidth: 0, emphasis: true),
+            CalendarDay(id: 4, label: "29", fill: AnyShapeStyle(LumiGradient.primary), textColor: .white, borderColor: .clear, borderWidth: 0, emphasis: true),
+            CalendarDay(id: 5, label: "30", fill: AnyShapeStyle(LumiColor.blueChip.opacity(0.2)), textColor: LumiColor.blueChip, borderColor: LumiColor.blueChip.opacity(0.5), borderWidth: 1, emphasis: false),
+            CalendarDay(id: 6, label: "1", fill: AnyShapeStyle(LumiColor.purple1.opacity(0.25)), textColor: .white, borderColor: LumiColor.purple1, borderWidth: 2, emphasis: true),
+        ]
+    }
+
+    private func calendarLegend(color: Color, label: String) -> some View {
+        HStack(spacing: 4) {
+            RoundedRectangle(cornerRadius: 2).fill(color).frame(width: 8, height: 8)
+            Text(label).font(.system(size: 9)).foregroundColor(LumiColor.textTertiary)
         }
     }
 
@@ -370,7 +423,11 @@ struct SettingsView: View {
 
 struct StreakDetailView: View {
     @EnvironmentObject var app: AppState
-    private let days = [("Пн", true), ("Вт", true), ("Ср", true), ("Чт", false), ("Пт", false), ("Сб", false), ("Вс", false)]
+
+    private enum DayState { case done, frozen, today, empty }
+    private let days: [(label: String, state: DayState)] = [
+        ("Пн", .done), ("Вт", .done), ("Ср", .done), ("Чт", .frozen), ("Пт", .today), ("Сб", .empty), ("Вс", .empty),
+    ]
 
     var body: some View {
         DetailScreen(showStars: true) {
@@ -401,17 +458,23 @@ struct StreakDetailView: View {
                 HStack(spacing: 6) {
                     ForEach(Array(days.enumerated()), id: \.offset) { index, day in
                         VStack(spacing: 5) {
-                            Text(day.0).font(.lumi(9, weight: .bold)).foregroundColor(LumiColor.textDim)
+                            Text(day.label).font(.lumi(9, weight: day.state == .empty ? .bold : .heavy)).foregroundColor(dayLabelColor(day.state))
                             RoundedRectangle(cornerRadius: 9)
-                                .fill(day.1 ? AnyShapeStyle(LumiGradient.primary) : AnyShapeStyle(Color.white.opacity(0.05)))
+                                .fill(dayFill(day.state))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 9)
-                                        .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: day.1 ? [] : [3]))
-                                        .foregroundColor(Color.white.opacity(day.1 ? 0 : 0.18))
+                                        .strokeBorder(dayBorderColor(day.state), style: StrokeStyle(lineWidth: day.state == .empty ? 1.5 : 2, dash: day.state == .empty ? [3] : []))
                                 )
                                 .overlay {
-                                    if day.1 {
+                                    switch day.state {
+                                    case .done:
                                         Image(systemName: "checkmark").font(.system(size: 12, weight: .bold)).foregroundColor(.white)
+                                    case .frozen:
+                                        Image(systemName: "snowflake").font(.system(size: 12, weight: .bold)).foregroundColor(LumiColor.blueChip)
+                                    case .today:
+                                        Image(systemName: "flame.fill").font(.system(size: 12)).foregroundColor(LumiColor.orange1)
+                                    case .empty:
+                                        EmptyView()
                                     }
                                 }
                                 .aspectRatio(1, contentMode: .fit)
@@ -444,6 +507,32 @@ struct StreakDetailView: View {
                 .background(RoundedRectangle(cornerRadius: 14).fill(LumiColor.blueChip.opacity(0.1)))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(LumiColor.blueChip.opacity(0.25), lineWidth: 1))
             }
+        }
+    }
+
+    private func dayLabelColor(_ state: DayState) -> Color {
+        switch state {
+        case .done, .empty: return LumiColor.textDim
+        case .frozen: return LumiColor.blueChip
+        case .today: return LumiColor.orange1
+        }
+    }
+
+    private func dayFill(_ state: DayState) -> AnyShapeStyle {
+        switch state {
+        case .done: return AnyShapeStyle(LumiGradient.primary)
+        case .frozen: return AnyShapeStyle(LumiColor.blueChip.opacity(0.18))
+        case .today: return AnyShapeStyle(LumiColor.orange1.opacity(0.15))
+        case .empty: return AnyShapeStyle(Color.white.opacity(0.05))
+        }
+    }
+
+    private func dayBorderColor(_ state: DayState) -> Color {
+        switch state {
+        case .done: return .clear
+        case .frozen: return LumiColor.blueChip
+        case .today: return LumiColor.orange1
+        case .empty: return Color.white.opacity(0.18)
         }
     }
 }
