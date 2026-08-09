@@ -92,7 +92,7 @@ struct TabBarView: View {
         .padding(.horizontal, 6)
         .padding(.top, 10)
         .padding(.bottom, 8)
-        .background(LumiColor.bgCard.opacity(0.96))
+        .background(LumiColor.bgCard.opacity(0.92))
         .overlay(Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1), alignment: .top)
     }
 

@@ -11,7 +11,7 @@ struct HomeContentView: View {
                     .foregroundColor(.white)
                 HStack(spacing: 8) {
                     statChip(icon: "flame.fill", text: "\(app.streakDays)", color: LumiColor.orange1)
-                    Button { app.go(.catalog) } label: {
+                    Button { app.soon("Магазин") } label: {
                         statChip(icon: "star.fill", text: "\(app.gems)", color: LumiColor.yellow)
                     }
                     .buttonStyle(.plain)
@@ -19,7 +19,7 @@ struct HomeContentView: View {
                 }
             }
 
-            Button { app.soon("Гардероб Луми") } label: {
+            Button { app.soon("Внешний вид Луми") } label: {
                 MascotPlaceholder(size: 150, systemImage: "headphones")
                     .frame(maxWidth: .infinity)
             }
@@ -46,12 +46,12 @@ struct HomeContentView: View {
                 .foregroundColor(LumiColor.textTertiary)
 
             HStack(spacing: 8) {
-                dailyTile(icon: "wind", title: "Дыхание") { app.soon("Дыхание") }
+                dailyTile(icon: "moon", title: "Дыхание") { app.soon("Дыхание") }
                 dailyTile(icon: "heart.fill", title: "Аффирмации") { app.soon("Аффирмации") }
-                dailyTile(icon: "moon.stars.fill", title: "Медитация") { app.soon("Медитация") }
+                dailyTile(icon: "sun.max", title: "Медитация") { app.soon("Медитация") }
             }
 
-            Button { app.soon("Гардероб Луми") } label: {
+            Button { app.soon("Магазин") } label: {
                 HStack(spacing: 12) {
                     ZStack {
                         Circle().fill(LumiColor.purple1.opacity(0.2)).frame(width: 40, height: 40)

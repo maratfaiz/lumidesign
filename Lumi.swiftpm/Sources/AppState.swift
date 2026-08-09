@@ -28,7 +28,7 @@ final class AppState: ObservableObject {
     // Home stats
     @Published var streakDays: Int = 7
     @Published var gems: Int = 1230
-    @Published var freezesAvailable: Int = 2
+    @Published var freezesAvailable: Int = 1
 
     // "Coming soon" sheet for screens not built yet
     @Published var comingSoonTitle: String?
