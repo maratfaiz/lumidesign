@@ -22,7 +22,7 @@ struct WelcomeView: View {
 
                 Spacer()
 
-                MascotPlaceholder(size: 190)
+                MascotPlaceholder(size: 190, assetName: "mascot-welcome")
 
                 Spacer()
 
