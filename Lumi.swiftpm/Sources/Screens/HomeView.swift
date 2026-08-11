@@ -5,18 +5,17 @@ struct HomeContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 6) {
                 Text("Привет, Марат!")
                     .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundColor(.white)
-                HStack(spacing: 8) {
-                    statChip(icon: "icon-streak", text: "\(app.streakDays)", color: LumiColor.orange1)
-                    Button { app.go(.shop) } label: {
-                        statChip(icon: "icon-lumen", text: "\(app.gems)", color: LumiColor.yellow)
-                    }
-                    .buttonStyle(.plain)
-                    statChip(icon: "icon-freeze", text: "\(app.freezesAvailable)/2", color: LumiColor.blueChip)
+                Spacer(minLength: 6)
+                statChip(icon: "icon-streak", text: "\(app.streakDays)", color: LumiColor.orange1)
+                Button { app.go(.shop) } label: {
+                    statChip(icon: "icon-lumen", text: "\(app.gems)", color: LumiColor.yellow)
                 }
+                .buttonStyle(.plain)
+                statChip(icon: "icon-freeze", text: "\(app.freezesAvailable)/2", color: LumiColor.blueChip)
             }
 
             Button { app.go(.customize) } label: {
@@ -53,7 +52,7 @@ struct HomeContentView: View {
 
             Button { app.go(.shop) } label: {
                 HStack(spacing: 12) {
-                    MascotPlaceholder(size: 40, systemImage: "tshirt.fill", assetName: "mascot-home-wardrobe")
+                    MascotPlaceholder(size: 64, systemImage: "tshirt.fill", assetName: "mascot-home-wardrobe")
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Создай стиль для Луми и подними ему настроение")
                             .font(.lumi(12, weight: .heavy))
@@ -102,13 +101,13 @@ struct HomeContentView: View {
 
     @ViewBuilder
     private func statChip(icon: String, text: String, color: Color) -> some View {
-        HStack(spacing: 4) {
-            LumiIcon(name: icon, size: 12)
-            Text(text).font(.lumi(12, weight: .heavy))
+        HStack(spacing: 3) {
+            LumiIcon(name: icon, size: 11)
+            Text(text).font(.lumi(11, weight: .heavy))
         }
         .foregroundColor(color)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 5)
         .background(Capsule().fill(color.opacity(0.15)))
     }
 

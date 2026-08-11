@@ -452,7 +452,7 @@ struct LessonCompleteView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 22)
 
-                MascotPlaceholder(size: 190, systemImage: "moon.zzz.fill", assetName: "mascot-lessoncomplete")
+                MascotPlaceholder(size: 190, systemImage: "star.fill", assetName: "mascot-joy")
                     .padding(.bottom, 26)
 
                 HStack(spacing: 10) {
@@ -470,6 +470,7 @@ struct LessonCompleteView: View {
                         .padding(12)
                 }
                 .buttonStyle(.plain)
+                Spacer(minLength: 8)
             }
             .frame(maxWidth: .infinity)
         }

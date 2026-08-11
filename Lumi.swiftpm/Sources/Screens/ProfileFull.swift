@@ -9,7 +9,7 @@ struct ProfileContentView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Профиль")
-                    .font(.system(size: 19, weight: .black, design: .rounded))
+                    .font(.system(size: 26, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                 Spacer()
                 HStack(spacing: 14) {
@@ -27,10 +27,10 @@ struct ProfileContentView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(RadialGradient(colors: [Color(hex: 0x2a1d52), Color(hex: 0x150f30)], center: .init(x: 0.5, y: 0.3), startRadius: 0, endRadius: 180))
                 VStack {
-                    MascotPlaceholder(size: 130, systemImage: "sparkles", assetName: "mascot-profile")
+                    MascotPlaceholder(size: 175, systemImage: "sparkles", assetName: "mascot-profile")
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 22)
+                .padding(.vertical, 14)
 
                 Button { app.go(.customize) } label: {
                     LumiIcon(name: "icon-edit", size: 16)
@@ -377,7 +377,7 @@ struct SettingsView: View {
         DetailScreen {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Настройки")
-                    .font(.system(size: 18, weight: .black, design: .rounded))
+                    .font(.system(size: 24, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                     .padding(.bottom, 10)
 

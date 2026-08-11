@@ -9,20 +9,8 @@ struct PlanReadyView: View {
             StarField(stars: StarPresets.planReady)
 
             VStack(spacing: 0) {
-                HStack(spacing: 6) {
-                    LumiIcon(name: "icon-freeze", size: 14)
-                    Text("+1 заморозка дня")
-                }
-                .font(.lumi(13, weight: .bold))
-                .foregroundColor(LumiColor.blueChip)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(LumiColor.blueStrong.opacity(0.15)))
-                .overlay(Capsule().stroke(LumiColor.blueStrong.opacity(0.3), lineWidth: 1))
-                .padding(.top, 20)
-                .padding(.bottom, 22)
-
-                MascotPlaceholder(size: 150, systemImage: "flag.fill", assetName: "mascot-obtrack")
+                MascotPlaceholder(size: 210, systemImage: "flag.fill", assetName: "mascot-obtrack")
+                    .padding(.top, 20)
                     .padding(.bottom, 22)
 
                 Text("Твой персональный план готов!")
@@ -73,6 +61,19 @@ struct PlanReadyView: View {
                 }
                 .padding(14)
                 .lumiCard()
+                .padding(.bottom, 16)
+
+                HStack(spacing: 6) {
+                    LumiIcon(name: "icon-freeze", size: 14)
+                    Text("+1 заморозка дня")
+                }
+                .font(.lumi(13, weight: .bold))
+                .foregroundColor(LumiColor.blueChip)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
+                .background(Capsule().fill(LumiColor.blueStrong.opacity(0.15)))
+                .overlay(Capsule().stroke(LumiColor.blueStrong.opacity(0.3), lineWidth: 1))
+                .frame(maxWidth: .infinity)
 
                 Spacer()
                 PrimaryButton(title: "Начать первый урок →") {

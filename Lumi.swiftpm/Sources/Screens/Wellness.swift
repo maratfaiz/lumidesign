@@ -149,6 +149,7 @@ struct AffirmationsView: View {
     var body: some View {
         DetailScreen {
             VStack(spacing: 18) {
+                Spacer(minLength: 8)
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 22)
                         .fill(
@@ -205,6 +206,7 @@ struct AffirmationsView: View {
                         .foregroundColor(LumiColor.textSecondary)
                 }
                 .buttonStyle(.plain)
+                Spacer(minLength: 8)
             }
         }
     }
