@@ -557,9 +557,13 @@ struct NotificationsView: View {
         DetailScreen {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Уведомления")
-                    .font(.system(size: 18, weight: .black, design: .rounded))
+                    .font(.system(size: 24, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                     .padding(.bottom, 4)
+
+                MascotPlaceholder(size: 130, systemImage: "moon.zzz.fill", assetName: "mascot-sleeping")
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 8)
 
                 notificationRow(text: "Не забудьте про сегодняшний урок", time: "2 часа назад") { app.go(.lesson) }
                 notificationRow(text: "Открыто новое достижение 🏅", time: "вчера") { app.go(.achievements) }
