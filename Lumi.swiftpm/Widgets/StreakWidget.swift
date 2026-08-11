@@ -55,9 +55,7 @@ private struct WeekStripView: View {
                                 .font(.system(size: 10, weight: .black))
                                 .foregroundStyle(LumiWidgetColor.purple2)
                         case .freeze:
-                            Image(systemName: "snowflake")
-                                .font(.system(size: 10, weight: .bold))
-                                .foregroundStyle(Color(widgetHex: 0x4a9fe0))
+                            WidgetIcon(name: "icon-freeze", systemFallback: "snowflake", size: 12, color: Color(widgetHex: 0x4a9fe0))
                         case .empty:
                             EmptyView()
                         }
@@ -103,9 +101,7 @@ struct StreakWidgetView: View {
         case .active:
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
-                    Image(systemName: "flame.fill")
-                        .font(.system(size: 22))
-                        .foregroundStyle(.white)
+                    WidgetIcon(name: "icon-streak", systemFallback: "flame.fill", size: 26, color: .white)
                     Text("\(snapshot.streakCount)")
                         .font(.lumiWidget(34, weight: .heavy))
                         .foregroundStyle(.white)

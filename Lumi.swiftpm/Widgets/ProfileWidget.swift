@@ -23,16 +23,14 @@ struct ProfileProvider: TimelineProvider {
 }
 
 private struct ProfileRow: View {
-    let systemImage: String
+    let iconName: String
+    let systemFallback: String
     let tint: Color
     let label: String
 
     var body: some View {
         HStack(spacing: 7) {
-            Image(systemName: systemImage)
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(tint)
-                .frame(width: 15)
+            WidgetIcon(name: iconName, systemFallback: systemFallback, size: 15, color: tint)
             Text(label)
                 .font(.lumiWidget(13, weight: .bold))
                 .foregroundStyle(.white)
@@ -48,7 +46,7 @@ struct ProfileWidgetView: View {
             WidgetStarField(stars: WidgetStarPresets.smallDeep)
 
             VStack(alignment: .leading, spacing: 9) {
-                ProfileRow(systemImage: "star.fill", tint: LumiWidgetColor.inkDim, label: "Уровень \(snapshot.level)")
+                ProfileRow(iconName: "icon-stats", systemFallback: "star.fill", tint: LumiWidgetColor.inkDim, label: "Уровень \(snapshot.level)")
 
                 GeometryReader { geo in
                     Capsule()
@@ -61,8 +59,8 @@ struct ProfileWidgetView: View {
                 }
                 .frame(height: 5)
 
-                ProfileRow(systemImage: "diamond.fill", tint: LumiWidgetColor.yellow, label: "\(snapshot.lumens)")
-                ProfileRow(systemImage: "flame.fill", tint: LumiWidgetColor.orange1, label: "\(snapshot.streakCount) дней")
+                ProfileRow(iconName: "icon-lumen", systemFallback: "diamond.fill", tint: LumiWidgetColor.yellow, label: "\(snapshot.lumens)")
+                ProfileRow(iconName: "icon-streak", systemFallback: "flame.fill", tint: LumiWidgetColor.orange1, label: "\(snapshot.streakCount) дней")
             }
             .frame(maxWidth: 118, alignment: .leading)
             .padding(16)
