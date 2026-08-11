@@ -43,8 +43,7 @@ struct SelectableOptionRow: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 10) {
-                Image(systemName: icon)
-                    .font(.system(size: 16, weight: .semibold))
+                LumiIcon(name: icon, size: 18)
                     .foregroundColor(isSelected ? LumiColor.purpleLight : LumiColor.textBody)
                     .frame(width: 20)
                 Text(title)

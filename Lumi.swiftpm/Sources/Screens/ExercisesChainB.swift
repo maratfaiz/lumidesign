@@ -15,7 +15,7 @@ struct Ex6View: View {
                 HStack(alignment: .top, spacing: 10) {
                     ZStack {
                         Circle().fill(Color(hex: 0x5aaaff).opacity(0.18)).frame(width: 34, height: 34)
-                        Image(systemName: "person.2.fill").font(.system(size: 15)).foregroundColor(LumiColor.blueChip)
+                        LumiIcon(name: "icon-friends", size: 16).foregroundColor(LumiColor.blueChip)
                     }
                     Text("Я совершил ошибку на работе… Мне так стыдно.")
                         .font(.lumi(12.5, weight: .semibold))
@@ -63,7 +63,7 @@ private struct Ex7Quality {
 
 // Qualities in their displayed (top-row) order.
 private let ex7Qualities: [Ex7Quality] = [
-    .init(icon: "heart.fill", title: "Доброта"),
+    .init(icon: "icon-heart-fill", title: "Доброта"),
     .init(icon: "globe", title: "Общая человечность"),
     .init(icon: "person.fill", title: "Осознанность"),
 ]
@@ -130,9 +130,14 @@ struct Ex7View: View {
         let selected = app.ex7SelectedTop == index
         return Button { app.ex7SelectTop(index) } label: {
             VStack(spacing: 6) {
-                Image(systemName: quality.icon)
-                    .font(.system(size: 18))
-                    .foregroundColor(matched || selected ? LumiColor.purpleLight : LumiColor.textBody)
+                if quality.icon.hasPrefix("icon-") {
+                    LumiIcon(name: quality.icon, size: 18)
+                        .foregroundColor(matched || selected ? LumiColor.purpleLight : LumiColor.textBody)
+                } else {
+                    Image(systemName: quality.icon)
+                        .font(.system(size: 18))
+                        .foregroundColor(matched || selected ? LumiColor.purpleLight : LumiColor.textBody)
+                }
                 Text(quality.title)
                     .font(.lumi(10.5, weight: .bold))
                     .foregroundColor(LumiColor.textBody)
@@ -182,8 +187,7 @@ struct Ex8View: View {
                     .padding(.bottom, 16)
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Image(systemName: "envelope.fill")
-                        .font(.system(size: 20))
+                    LumiIcon(name: "icon-letter", size: 20)
                         .foregroundColor(LumiColor.purple1)
                     Text("Дорогой друг,")
                         .font(.lumi(13, weight: .heavy))
@@ -227,10 +231,10 @@ struct Ex9View: View {
     @EnvironmentObject var app: AppState
 
     private let options: [(key: String, icon: String, title: String)] = [
-        ("message", "message.fill", "Написать сообщение"),
-        ("call", "phone.fill", "Сделать звонок"),
+        ("message", "icon-message", "Написать сообщение"),
+        ("call", "icon-call", "Сделать звонок"),
         ("task", "checkmark.circle.fill", "Доделать задачу"),
-        ("custom", "wand.and.stars", "Свой вариант"),
+        ("custom", "icon-magic", "Свой вариант"),
     ]
     private let whens: [(key: String, label: String)] = [
         ("morning", "Утром"), ("day", "Днём"), ("evening", "Вечером"),
@@ -254,7 +258,11 @@ struct Ex9View: View {
                             app.ex9When = nil
                         } label: {
                             VStack(spacing: 8) {
-                                Image(systemName: option.icon).font(.system(size: 18)).foregroundColor(Color(hex: 0xe5e0f7))
+                                if option.icon.hasPrefix("icon-") {
+                                    LumiIcon(name: option.icon, size: 18).foregroundColor(Color(hex: 0xe5e0f7))
+                                } else {
+                                    Image(systemName: option.icon).font(.system(size: 18)).foregroundColor(Color(hex: 0xe5e0f7))
+                                }
                                 Text(option.title)
                                     .font(.lumi(11.5, weight: .bold))
                                     .foregroundColor(Color(hex: 0xe5e0f7))
@@ -322,10 +330,10 @@ private struct Ex10Value {
 }
 
 private let ex10Values: [Ex10Value] = [
-    .init(icon: "heart.fill", title: "Забота", color: Color(hex: 0xff8fa8)),
-    .init(icon: "book.closed.fill", title: "Развитие", color: Color(hex: 0xc9c2e6)),
-    .init(icon: "checkmark.seal.fill", title: "Честность", color: Color(hex: 0xc9c2e6)),
-    .init(icon: "bolt.fill", title: "Смелость", color: Color(hex: 0x7fe0a8)),
+    .init(icon: "icon-heart-fill", title: "Забота", color: Color(hex: 0xff8fa8)),
+    .init(icon: "icon-journal", title: "Развитие", color: Color(hex: 0xc9c2e6)),
+    .init(icon: "icon-seal", title: "Честность", color: Color(hex: 0xc9c2e6)),
+    .init(icon: "icon-bolt", title: "Смелость", color: Color(hex: 0x7fe0a8)),
 ]
 
 struct Ex10View: View {
@@ -348,7 +356,7 @@ struct Ex10View: View {
                     ForEach(Array(ex10Values.enumerated()), id: \.offset) { index, value in
                         Button { selected = index } label: {
                             VStack(spacing: 8) {
-                                Image(systemName: value.icon).font(.system(size: 17)).foregroundColor(value.color)
+                                LumiIcon(name: value.icon, size: 17).foregroundColor(value.color)
                                 Text(value.title).font(.lumi(12, weight: .heavy)).foregroundColor(selected == index ? .white : Color(hex: 0xe5e0f7))
                             }
                             .frame(maxWidth: .infinity)

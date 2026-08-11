@@ -56,7 +56,7 @@ struct CatalogListView: View {
                     highlighted: false, action: nil
                 )
                 courseRow(
-                    icon: "headphones", iconColor: .white,
+                    icon: "icon-headphones", iconColor: .white,
                     title: "Курс 1 · Работа с внутренним критиком", subtitle: nil,
                     progress: 0.8,
                     trailing: AnyView(
@@ -65,15 +65,15 @@ struct CatalogListView: View {
                     highlighted: true
                 ) { app.go(.catalogDetail) }
                 courseRow(
-                    icon: "heart.fill", iconColor: LumiColor.textBody,
+                    icon: "icon-heart-fill", iconColor: LumiColor.textBody,
                     title: "Курс 2 · Самосострадание", subtitle: "5 уроков · заблокирован",
-                    trailing: AnyView(Image(systemName: "lock.fill").font(.system(size: 12)).foregroundColor(LumiColor.textFaint2)),
+                    trailing: AnyView(LumiIcon(name: "icon-lock", size: 12).foregroundColor(LumiColor.textFaint2)),
                     dimmed: true, highlighted: false, action: nil
                 )
                 courseRow(
                     icon: "flag.fill", iconColor: LumiColor.textBody,
                     title: "Курс 5 · Самопринятие", subtitle: "5 уроков · заблокирован",
-                    trailing: AnyView(Image(systemName: "lock.fill").font(.system(size: 12)).foregroundColor(LumiColor.textFaint2)),
+                    trailing: AnyView(LumiIcon(name: "icon-lock", size: 12).foregroundColor(LumiColor.textFaint2)),
                     dimmed: true, highlighted: false, action: nil
                 )
             }
@@ -93,7 +93,11 @@ struct CatalogListView: View {
         let row = HStack(spacing: 13) {
             ZStack {
                 Circle().fill(Color.white.opacity(0.08)).frame(width: 44, height: 44)
-                Image(systemName: icon).font(.system(size: 17)).foregroundColor(iconColor)
+                if icon.hasPrefix("icon-") {
+                    LumiIcon(name: icon, size: 17).foregroundColor(iconColor)
+                } else {
+                    Image(systemName: icon).font(.system(size: 17)).foregroundColor(iconColor)
+                }
             }
             .opacity(dimmed ? 0.6 : 1)
 
@@ -169,7 +173,7 @@ struct CourseDetailView: View {
                         .foregroundColor(LumiColor.textSecondary)
                     Spacer()
                     HStack(spacing: 4) {
-                        Image(systemName: "star.fill")
+                        LumiIcon(name: "icon-lumen", size: 13)
                         Text("1230")
                     }
                     .font(.lumi(12, weight: .heavy))
@@ -230,7 +234,7 @@ struct CourseDetailView: View {
             case .active:
                 Text("→").foregroundColor(.white)
             case .locked:
-                Image(systemName: "lock.fill").font(.system(size: 12)).foregroundColor(LumiColor.textDim)
+                LumiIcon(name: "icon-lock", size: 12).foregroundColor(LumiColor.textDim)
             }
         }
         .padding(12)
@@ -259,7 +263,7 @@ struct LessonView: View {
     private let bullets = [
         ("ellipsis.bubble", "Разберём, как звучит внутренний критик"),
         ("star.fill", "Потренируемся замечать момент критики"),
-        ("heart.fill", "Запишем ответ на критику своими словами"),
+        ("icon-heart-fill", "Запишем ответ на критику своими словами"),
     ]
 
     var body: some View {
@@ -300,9 +304,13 @@ struct LessonView: View {
                 VStack(spacing: 8) {
                     ForEach(bullets, id: \.1) { icon, text in
                         HStack(spacing: 10) {
-                            Image(systemName: icon)
-                                .font(.system(size: 15))
-                                .foregroundColor(LumiColor.purpleLight)
+                            if icon.hasPrefix("icon-") {
+                                LumiIcon(name: icon, size: 15).foregroundColor(LumiColor.purpleLight)
+                            } else {
+                                Image(systemName: icon)
+                                    .font(.system(size: 15))
+                                    .foregroundColor(LumiColor.purpleLight)
+                            }
                             Text(text)
                                 .font(.lumi(12.5, weight: .semibold))
                                 .foregroundColor(LumiColor.textBody)
@@ -334,7 +342,7 @@ struct ExerciseIntroView: View {
                         .font(.lumi(11, weight: .bold))
                         .foregroundColor(LumiColor.textTertiary)
                     Spacer()
-                    Image(systemName: "heart.fill")
+                    LumiIcon(name: "icon-heart-fill", size: 15)
                         .foregroundColor(Color(hex: 0xff7a94))
                 }
                 .padding(.bottom, 6)
@@ -449,7 +457,7 @@ struct LessonCompleteView: View {
 
                 HStack(spacing: 10) {
                     rewardCard(value: "+10 XP", label: "Опыт", color: Color(hex: 0x4ade80))
-                    rewardCard(value: "+10", label: "Люменов", color: LumiColor.yellow, valueColor: .white)
+                    rewardCard(value: "+10", label: "Люменов", color: LumiColor.yellow, valueColor: .white, icon: "icon-lumen")
                 }
                 .padding(.bottom, 22)
 
@@ -467,11 +475,15 @@ struct LessonCompleteView: View {
         }
     }
 
-    private func rewardCard(value: String, label: String, color: Color, valueColor: Color? = nil) -> some View {
+    private func rewardCard(value: String, label: String, color: Color, valueColor: Color? = nil, icon: String = "star.fill") -> some View {
         HStack(spacing: 10) {
             ZStack {
                 Circle().fill(color.opacity(0.25)).frame(width: 34, height: 34)
-                Image(systemName: "star.fill").font(.system(size: 15)).foregroundColor(color)
+                if icon.hasPrefix("icon-") {
+                    LumiIcon(name: icon, size: 15).foregroundColor(color)
+                } else {
+                    Image(systemName: icon).font(.system(size: 15)).foregroundColor(color)
+                }
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(value).font(.lumi(14, weight: .heavy)).foregroundColor(valueColor ?? color)

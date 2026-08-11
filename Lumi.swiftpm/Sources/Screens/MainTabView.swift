@@ -42,7 +42,7 @@ struct TabBarView: View {
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 0) {
-            tabButton(icon: "book.closed", label: "Курсы", isActive: selected == .catalog) {
+            tabButton(icon: "icon-tab-courses", label: "Курсы", isActive: selected == .catalog) {
                 app.go(.catalog)
             }
             .frame(maxWidth: .infinity)
@@ -70,7 +70,7 @@ struct TabBarView: View {
             .offset(y: -14)
             .frame(maxWidth: .infinity)
 
-            tabButton(icon: "person.crop.circle", label: "Профиль", isActive: selected == .profile) {
+            tabButton(icon: "icon-tab-profile", label: "Профиль", isActive: selected == .profile) {
                 app.go(.profile)
             }
             .frame(maxWidth: .infinity)
@@ -86,8 +86,7 @@ struct TabBarView: View {
     private func tabButton(icon: String, label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 3) {
-                Image(systemName: icon)
-                    .font(.system(size: 17, weight: .semibold))
+                LumiIcon(name: icon, size: 20)
                 Text(label)
                     .font(.lumi(10, weight: .bold))
             }

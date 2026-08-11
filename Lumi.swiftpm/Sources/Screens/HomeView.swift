@@ -10,12 +10,12 @@ struct HomeContentView: View {
                     .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                 HStack(spacing: 8) {
-                    statChip(icon: "flame.fill", text: "\(app.streakDays)", color: LumiColor.orange1)
+                    statChip(icon: "icon-streak", text: "\(app.streakDays)", color: LumiColor.orange1)
                     Button { app.go(.shop) } label: {
-                        statChip(icon: "star.fill", text: "\(app.gems)", color: LumiColor.yellow)
+                        statChip(icon: "icon-lumen", text: "\(app.gems)", color: LumiColor.yellow)
                     }
                     .buttonStyle(.plain)
-                    statChip(icon: "snowflake", text: "\(app.freezesAvailable)/2", color: LumiColor.blueChip)
+                    statChip(icon: "icon-freeze", text: "\(app.freezesAvailable)/2", color: LumiColor.blueChip)
                 }
             }
 
@@ -47,7 +47,7 @@ struct HomeContentView: View {
 
             HStack(spacing: 8) {
                 dailyTile(icon: "moon", title: "Дыхание") { app.go(.breathing) }
-                dailyTile(icon: "heart.fill", title: "Аффирмации") { app.go(.affirmations) }
+                dailyTile(icon: "heart.fill", assetIcon: "icon-heart-fill", title: "Аффирмации") { app.go(.affirmations) }
                 dailyTile(icon: "sun.max", title: "Медитация") { app.go(.beforeSleep) }
             }
 
@@ -103,7 +103,7 @@ struct HomeContentView: View {
     @ViewBuilder
     private func statChip(icon: String, text: String, color: Color) -> some View {
         HStack(spacing: 4) {
-            Image(systemName: icon).font(.system(size: 11))
+            LumiIcon(name: icon, size: 12)
             Text(text).font(.lumi(12, weight: .heavy))
         }
         .foregroundColor(color)
@@ -113,12 +113,17 @@ struct HomeContentView: View {
     }
 
     @ViewBuilder
-    private func dailyTile(icon: String, title: String, action: @escaping () -> Void) -> some View {
+    private func dailyTile(icon: String, assetIcon: String? = nil, title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 6) {
-                Image(systemName: icon)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(LumiColor.purpleLight)
+                if let assetIcon {
+                    LumiIcon(name: assetIcon, size: 17)
+                        .foregroundColor(LumiColor.purpleLight)
+                } else {
+                    Image(systemName: icon)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(LumiColor.purpleLight)
+                }
                 Text(title)
                     .font(.lumi(10, weight: .bold))
                     .foregroundColor(LumiColor.textBody)

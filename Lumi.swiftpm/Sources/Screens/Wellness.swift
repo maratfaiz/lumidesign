@@ -82,7 +82,7 @@ struct BreathingView: View {
                     ControlPillButton(icon: "info.circle", label: "Инфо", isActive: app.breathInfoOpen) {
                         app.breathInfoOpen.toggle()
                     }
-                    ControlPillButton(icon: "clock", label: "\(String(format: "%g", speed))×", isActive: speed != 1) {
+                    ControlPillButton(icon: "icon-clock", label: "\(String(format: "%g", speed))×", isActive: speed != 1) {
                         speed = speed >= 1.5 ? 0.75 : speed + 0.25
                     }
                 }
@@ -155,8 +155,7 @@ struct AffirmationsView: View {
                             LinearGradient(colors: [LumiColor.purple1.opacity(0.22), LumiColor.purple2.opacity(0.08)], startPoint: .top, endPoint: .bottom)
                         )
                         .overlay(RoundedRectangle(cornerRadius: 22).stroke(LumiColor.purple1.opacity(0.3), lineWidth: 1))
-                    Image(systemName: "quote.opening")
-                        .font(.system(size: 28))
+                    LumiIcon(name: "icon-quote", size: 28)
                         .foregroundColor(LumiColor.purple1.opacity(0.35))
                         .padding(16)
                     VStack(spacing: 12) {
@@ -181,7 +180,7 @@ struct AffirmationsView: View {
                     ControlPillButton(icon: "arrow.triangle.2.circlepath", label: app.affirmRepeat ? "Повтор" : "Один раз", isActive: app.affirmRepeat) {
                         app.affirmRepeat.toggle()
                     }
-                    ControlPillButton(icon: "clock", label: "\(String(format: "%g", app.affirmSpeed))×", isActive: app.affirmSpeed != 1) {
+                    ControlPillButton(icon: "icon-clock", label: "\(String(format: "%g", app.affirmSpeed))×", isActive: app.affirmSpeed != 1) {
                         app.affirmSpeed = app.affirmSpeed >= 1.5 ? 0.75 : app.affirmSpeed + 0.25
                     }
                 }
@@ -233,9 +232,9 @@ struct MeditationView: View {
     @EnvironmentObject var app: AppState
 
     private let ambiences: [(key: String, label: String, icon: String)] = [
-        ("silence", "Тишина", "moon.fill"),
-        ("rain", "Дождь", "cloud.rain.fill"),
-        ("ocean", "Океан", "water.waves"),
+        ("silence", "Тишина", "icon-ambience-silence"),
+        ("rain", "Дождь", "icon-ambience-rain"),
+        ("ocean", "Океан", "icon-ambience-ocean"),
     ]
 
     private var timeLabel: String {
@@ -275,11 +274,15 @@ struct MeditationView: View {
                 HStack(spacing: 8) {
                     ForEach(ambiences, id: \.key) { ambience in
                         Button { app.meditationAmbience = ambience.key } label: {
-                            Label(ambience.label, systemImage: ambience.icon)
-                                .font(.lumi(12, weight: app.meditationAmbience == ambience.key ? .heavy : .bold))
-                                .foregroundColor(app.meditationAmbience == ambience.key ? .white : LumiColor.textSecondary)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 9)
+                            Label {
+                                Text(ambience.label)
+                            } icon: {
+                                LumiIcon(name: ambience.icon, size: 14)
+                            }
+                            .font(.lumi(12, weight: app.meditationAmbience == ambience.key ? .heavy : .bold))
+                            .foregroundColor(app.meditationAmbience == ambience.key ? .white : LumiColor.textSecondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 9)
                         }
                         .buttonStyle(.plain)
                         .background(RoundedRectangle(cornerRadius: 12).fill(app.meditationAmbience == ambience.key ? LumiColor.purple1.opacity(0.25) : Color.white.opacity(0.05)))
@@ -361,7 +364,7 @@ struct CompletionScreen: View {
                     .padding(.vertical, 8)
 
                 HStack(spacing: 6) {
-                    Image(systemName: "star.fill")
+                    LumiIcon(name: "icon-lumen", size: 14)
                     Text(reward)
                 }
                 .font(.lumi(13, weight: .heavy))

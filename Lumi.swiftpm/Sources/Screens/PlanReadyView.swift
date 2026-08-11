@@ -10,7 +10,7 @@ struct PlanReadyView: View {
 
             VStack(spacing: 0) {
                 HStack(spacing: 6) {
-                    Image(systemName: "snowflake")
+                    LumiIcon(name: "icon-freeze", size: 14)
                     Text("+1 заморозка дня")
                 }
                 .font(.lumi(13, weight: .bold))

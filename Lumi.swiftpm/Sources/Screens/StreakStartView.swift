@@ -42,8 +42,7 @@ struct StreakStartView: View {
                         .frame(width: 140, height: 140)
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 2) {
-                        Image(systemName: "flame.fill")
-                            .font(.system(size: 28))
+                        LumiIcon(name: "icon-streak", size: 28)
                             .foregroundColor(LumiColor.orange1)
                         Text("1")
                             .font(.system(size: 36, weight: .black, design: .rounded))

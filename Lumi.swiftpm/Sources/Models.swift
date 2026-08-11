@@ -18,11 +18,11 @@ enum Concern: CaseIterable, Identifiable, Hashable {
 
     var icon: String {
         switch self {
-        case .selfCritic: return "bubble.left.and.exclamationmark.bubble.right"
-        case .boundaries: return "clock"
-        case .notGoodEnough: return "heart"
-        case .anxiety: return "exclamationmark.circle"
-        case .other: return "questionmark.circle"
+        case .selfCritic: return "icon-critic-voice"
+        case .boundaries: return "icon-clock"
+        case .notGoodEnough: return "icon-heart-outline"
+        case .anxiety: return "icon-anxiety"
+        case .other: return "icon-question"
         }
     }
 }
@@ -42,9 +42,9 @@ enum LearningFormat: CaseIterable, Identifiable, Hashable {
 
     var icon: String {
         switch self {
-        case .reading: return "book.closed"
-        case .audio: return "headphones"
-        case .interactive: return "hand.tap"
+        case .reading: return "icon-book"
+        case .audio: return "icon-headphones"
+        case .interactive: return "icon-tap"
         }
     }
 }
@@ -66,11 +66,11 @@ enum Goal: CaseIterable, Identifiable, Hashable {
 
     var icon: String {
         switch self {
-        case .confidence: return "target"
-        case .lessCritical: return "face.smiling"
-        case .anxietyEase: return "bolt.fill"
-        case .selfWorth: return "heart.fill"
-        case .other: return "questionmark.circle"
+        case .confidence: return "icon-target"
+        case .lessCritical: return "icon-smile"
+        case .anxietyEase: return "icon-bolt"
+        case .selfWorth: return "icon-heart-fill"
+        case .other: return "icon-question"
         }
     }
 }

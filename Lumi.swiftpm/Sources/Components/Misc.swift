@@ -130,7 +130,11 @@ struct ControlPillButton: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
-                Image(systemName: icon).font(.system(size: 14, weight: .semibold))
+                if icon.hasPrefix("icon-") {
+                    LumiIcon(name: icon, size: 14)
+                } else {
+                    Image(systemName: icon).font(.system(size: 14, weight: .semibold))
+                }
                 Text(label).font(.lumi(10, weight: .bold))
             }
             .frame(maxWidth: .infinity)

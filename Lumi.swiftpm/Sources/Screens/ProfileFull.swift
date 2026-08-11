@@ -17,7 +17,7 @@ struct ProfileContentView: View {
                         Image(systemName: "heart.text.square").foregroundColor(Color(hex: 0xff9f9f))
                     }
                     Button { app.go(.notifications) } label: {
-                        Image(systemName: "bell").foregroundColor(LumiColor.textSecondary)
+                        LumiIcon(name: "icon-bell", size: 20).foregroundColor(LumiColor.textSecondary)
                     }
                 }
                 .buttonStyle(.plain)
@@ -33,7 +33,7 @@ struct ProfileContentView: View {
                 .padding(.vertical, 22)
 
                 Button { app.go(.customize) } label: {
-                    Image(systemName: "pencil")
+                    LumiIcon(name: "icon-edit", size: 16)
                         .foregroundColor(.white)
                         .frame(width: 32, height: 32)
                         .background(Circle().fill(Color.white.opacity(0.1)))
@@ -60,9 +60,9 @@ struct ProfileContentView: View {
             .lumiCard(fill: Color.white.opacity(0.05), border: Color.white.opacity(0.08))
 
             HStack(spacing: 8) {
-                statTile(icon: "star.fill", value: "1230", label: "Люменов", color: LumiColor.yellow) { app.go(.shop) }
-                statTile(icon: "flame.fill", value: "7", label: "Серия дней", color: LumiColor.orange1) { app.go(.streakDetail) }
-                statTile(icon: "snowflake", value: "1/2", label: "Заморозки", color: LumiColor.blueChip) { app.go(.shop) }
+                statTile(icon: "icon-lumen", value: "1230", label: "Люменов", color: LumiColor.yellow) { app.go(.shop) }
+                statTile(icon: "icon-streak", value: "7", label: "Серия дней", color: LumiColor.orange1) { app.go(.streakDetail) }
+                statTile(icon: "icon-freeze", value: "1/2", label: "Заморозки", color: LumiColor.blueChip) { app.go(.shop) }
             }
 
             HStack {
@@ -75,16 +75,16 @@ struct ProfileContentView: View {
             }
 
             HStack(spacing: 8) {
-                achievementBadge(icon: "trophy.fill", title: "Первый урок", unlocked: true, color: Color(hex: 0xffb020))
-                achievementBadge(icon: "flame.fill", title: "7 дней подряд", unlocked: true, color: Color(hex: 0xff7a30))
-                achievementBadge(icon: "lock.fill", title: "Ранняя пташка", unlocked: false, color: .clear)
-                achievementBadge(icon: "lock.fill", title: "Дневник × 5", unlocked: false, color: .clear)
+                achievementBadge(icon: "icon-trophy", title: "Первый урок", unlocked: true, color: Color(hex: 0xffb020))
+                achievementBadge(icon: "icon-streak", title: "7 дней подряд", unlocked: true, color: Color(hex: 0xff7a30))
+                achievementBadge(icon: "icon-lock", title: "Ранняя пташка", unlocked: false, color: .clear)
+                achievementBadge(icon: "icon-lock", title: "Дневник × 5", unlocked: false, color: .clear)
             }
 
             VStack(spacing: 8) {
-                navRow(icon: "bag.fill", title: "Магазин") { app.go(.shop) }
-                navRow(icon: "chart.bar.fill", title: "Статистика") { app.go(.statistics) }
-                navRow(icon: "gearshape.fill", title: "Настройки") { app.go(.settings) }
+                navRow(icon: "icon-shop", title: "Магазин") { app.go(.shop) }
+                navRow(icon: "icon-stats", title: "Статистика") { app.go(.statistics) }
+                navRow(icon: "icon-settings", title: "Настройки") { app.go(.settings) }
             }
         }
     }
@@ -92,7 +92,7 @@ struct ProfileContentView: View {
     private func statTile(icon: String, value: String, label: String, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 4) {
-                Image(systemName: icon).font(.system(size: 17)).foregroundColor(color)
+                LumiIcon(name: icon, size: 17).foregroundColor(color)
                 Text(value).font(.lumi(14, weight: .heavy)).foregroundColor(color)
                 Text(label).font(.lumi(10, weight: .semibold)).foregroundColor(color.opacity(0.75))
             }
@@ -111,8 +111,7 @@ struct ProfileContentView: View {
                 .overlay(Circle().stroke(Color.white.opacity(unlocked ? 0 : 0.12), style: StrokeStyle(lineWidth: 1.5, dash: unlocked ? [] : [3])))
                 .frame(width: 52, height: 52)
                 .overlay(
-                    Image(systemName: icon)
-                        .font(.system(size: unlocked ? 20 : 17))
+                    LumiIcon(name: icon, size: unlocked ? 20 : 17)
                         .foregroundColor(unlocked ? Color(hex: 0x2a1a00) : LumiColor.textDim)
                 )
             Text(title)
@@ -127,9 +126,12 @@ struct ProfileContentView: View {
     private func navRow(icon: String, title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack {
-                Label(title, systemImage: icon)
-                    .font(.lumi(13, weight: .bold))
-                    .foregroundColor(Color(hex: 0xe5e0f7))
+                Label {
+                    Text(title).font(.lumi(13, weight: .bold))
+                } icon: {
+                    LumiIcon(name: icon, size: 16)
+                }
+                .foregroundColor(Color(hex: 0xe5e0f7))
                 Spacer()
                 Text("→").foregroundColor(Color(hex: 0xe5e0f7))
             }
@@ -154,14 +156,14 @@ private struct AchievementRow {
 
 struct AchievementsView: View {
     private let unlocked: [AchievementRow] = [
-        .init(icon: "trophy.fill", title: "Первый урок", subtitle: "Пройден первый урок в приложении", progress: nil, color: Color(hex: 0xffb020), unlocked: true),
-        .init(icon: "flame.fill", title: "7 дней подряд", subtitle: "Держал серию 7 дней без пропуска", progress: nil, color: Color(hex: 0xff7a30), unlocked: true),
+        .init(icon: "icon-trophy", title: "Первый урок", subtitle: "Пройден первый урок в приложении", progress: nil, color: Color(hex: 0xffb020), unlocked: true),
+        .init(icon: "icon-streak", title: "7 дней подряд", subtitle: "Держал серию 7 дней без пропуска", progress: nil, color: Color(hex: 0xff7a30), unlocked: true),
     ]
     private let upcoming: [AchievementRow] = [
-        .init(icon: "sunrise.fill", title: "Ранняя пташка", subtitle: "Позанимайся до 9 утра — 1 / 3 раза", progress: 0.33, color: .clear, unlocked: false),
-        .init(icon: "book.closed.fill", title: "Дневник × 5", subtitle: "Заполни дневник эмоций — 2 / 5 раз", progress: 0.4, color: .clear, unlocked: false),
-        .init(icon: "checkmark.seal.fill", title: "Курс пройден", subtitle: "Заверши курс целиком — 0 / 1", progress: 0, color: .clear, unlocked: false),
-        .init(icon: "calendar", title: "30 дней подряд", subtitle: "Держи серию месяц — 7 / 30", progress: 0.23, color: .clear, unlocked: false),
+        .init(icon: "icon-sunrise", title: "Ранняя пташка", subtitle: "Позанимайся до 9 утра — 1 / 3 раза", progress: 0.33, color: .clear, unlocked: false),
+        .init(icon: "icon-journal", title: "Дневник × 5", subtitle: "Заполни дневник эмоций — 2 / 5 раз", progress: 0.4, color: .clear, unlocked: false),
+        .init(icon: "icon-seal", title: "Курс пройден", subtitle: "Заверши курс целиком — 0 / 1", progress: 0, color: .clear, unlocked: false),
+        .init(icon: "icon-calendar", title: "30 дней подряд", subtitle: "Держи серию месяц — 7 / 30", progress: 0.23, color: .clear, unlocked: false),
     ]
 
     var body: some View {
@@ -178,7 +180,7 @@ struct AchievementsView: View {
                     ForEach(unlocked, id: \.title) { row in
                         HStack(spacing: 12) {
                             Circle().fill(row.color).frame(width: 52, height: 52)
-                                .overlay(Image(systemName: row.icon).foregroundColor(Color(hex: 0x2a1a00)))
+                                .overlay(LumiIcon(name: row.icon, size: 20).foregroundColor(Color(hex: 0x2a1a00)))
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(row.title).font(.lumi(13.5, weight: .heavy)).foregroundColor(.white)
                                 Text(row.subtitle).font(.lumi(10.5, weight: .semibold)).foregroundColor(row.color.opacity(0.8))
@@ -197,7 +199,7 @@ struct AchievementsView: View {
                         HStack(spacing: 12) {
                             Circle().fill(Color.white.opacity(0.05)).frame(width: 52, height: 52)
                                 .overlay(Circle().strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [3])).foregroundColor(Color.white.opacity(0.18)))
-                                .overlay(Image(systemName: "lock.fill").font(.system(size: 16)).foregroundColor(LumiColor.textDim))
+                                .overlay(LumiIcon(name: "icon-lock", size: 16).foregroundColor(LumiColor.textDim))
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(row.title).font(.lumi(13.5, weight: .heavy)).foregroundColor(Color(hex: 0xe5e0f7))
                                 Text(row.subtitle).font(.lumi(10.5, weight: .semibold)).foregroundColor(LumiColor.textFaint2)
@@ -240,8 +242,8 @@ struct StatisticsView: View {
                 Text("Статистика").font(.system(size: 22, weight: .black, design: .rounded)).foregroundColor(.white)
 
                 HStack(spacing: 8) {
-                    statCard(icon: "book.closed.fill", value: "12", label: "уроков всего", color: LumiColor.purpleLight)
-                    statCard(icon: "flame.fill", value: "7", label: "серия сейчас", color: LumiColor.orange1)
+                    statCard(icon: "icon-journal", value: "12", label: "уроков всего", color: LumiColor.purpleLight)
+                    statCard(icon: "icon-streak", value: "7", label: "серия сейчас", color: LumiColor.orange1)
                     statCard(icon: "star.fill", value: "14", label: "лучшая серия", color: LumiColor.yellow)
                 }
 
@@ -351,7 +353,11 @@ struct StatisticsView: View {
 
     private func statCard(icon: String, value: String, label: String, color: Color) -> some View {
         VStack(spacing: 4) {
-            Image(systemName: icon).font(.system(size: 16)).foregroundColor(color)
+            if icon.hasPrefix("icon-") {
+                LumiIcon(name: icon, size: 16).foregroundColor(color)
+            } else {
+                Image(systemName: icon).font(.system(size: 16)).foregroundColor(color)
+            }
             Text(value).font(.lumi(20, weight: .heavy)).foregroundColor(color)
             Text(label).font(.lumi(10, weight: .bold)).foregroundColor(color.opacity(0.8))
         }
@@ -394,7 +400,12 @@ struct SettingsView: View {
                 Text("Версия 1.0")
                     .font(.lumi(11, weight: .semibold))
                     .foregroundColor(LumiColor.textDim)
-                    .padding(.vertical, 14)
+                    .padding(.top, 14)
+                Text("Иконки — Phosphor Icons (phosphoricons.com), лицензия MIT, © 2023 Phosphor Icons")
+                    .font(.lumi(9.5, weight: .medium))
+                    .foregroundColor(LumiColor.textDim)
+                    .padding(.top, 4)
+                    .padding(.bottom, 14)
             }
         }
     }
@@ -444,7 +455,7 @@ struct StreakDetailView: View {
                         .frame(width: 132, height: 132)
                         .rotationEffect(.degrees(-90))
                     VStack(spacing: 2) {
-                        Image(systemName: "flame.fill").font(.system(size: 24)).foregroundColor(LumiColor.orange1)
+                        LumiIcon(name: "icon-streak", size: 24).foregroundColor(LumiColor.orange1)
                         Text("7").font(.system(size: 32, weight: .black, design: .rounded)).foregroundColor(.white)
                     }
                 }
@@ -470,9 +481,9 @@ struct StreakDetailView: View {
                                     case .done:
                                         Image(systemName: "checkmark").font(.system(size: 12, weight: .bold)).foregroundColor(.white)
                                     case .frozen:
-                                        Image(systemName: "snowflake").font(.system(size: 12, weight: .bold)).foregroundColor(LumiColor.blueChip)
+                                        LumiIcon(name: "icon-freeze", size: 12).foregroundColor(LumiColor.blueChip)
                                     case .today:
-                                        Image(systemName: "flame.fill").font(.system(size: 12)).foregroundColor(LumiColor.orange1)
+                                        LumiIcon(name: "icon-streak", size: 12).foregroundColor(LumiColor.orange1)
                                     case .empty:
                                         EmptyView()
                                     }
@@ -485,7 +496,7 @@ struct StreakDetailView: View {
                 HStack(spacing: 11) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10).fill(LumiColor.blueChip.opacity(0.18)).frame(width: 36, height: 36)
-                        Image(systemName: "snowflake").foregroundColor(LumiColor.blueChip)
+                        LumiIcon(name: "icon-freeze", size: 18).foregroundColor(LumiColor.blueChip)
                     }
                     VStack(alignment: .leading, spacing: 1) {
                         Text("Заморозки: \(app.freezeCount)").font(.lumi(13, weight: .heavy)).foregroundColor(.white)
@@ -583,7 +594,7 @@ struct CrisisView: View {
     @EnvironmentObject var app: AppState
 
     private let resources: [(icon: String, title: String, detail: String, color: Color)] = [
-        ("phone.fill", "Детский телефон доверия", "8 800 2000 122 · круглосуточно, бесплатно", LumiColor.blueChip),
+        ("icon-call", "Детский телефон доверия", "8 800 2000 122 · круглосуточно, бесплатно", LumiColor.blueChip),
         ("bubble.left.and.bubble.right.fill", "Кризисная линия для взрослых", "8 (800) 333-44-34 · круглосуточно", LumiColor.purpleLight),
         ("cross.case.fill", "Экстренная помощь", "112", LumiColor.orange1),
     ]
@@ -608,7 +619,11 @@ struct CrisisView: View {
                     HStack(spacing: 10) {
                         ZStack {
                             Circle().fill(resource.color.opacity(0.2)).frame(width: 34, height: 34)
-                            Image(systemName: resource.icon).font(.system(size: 14)).foregroundColor(resource.color)
+                            if resource.icon.hasPrefix("icon-") {
+                                LumiIcon(name: resource.icon, size: 14).foregroundColor(resource.color)
+                            } else {
+                                Image(systemName: resource.icon).font(.system(size: 14)).foregroundColor(resource.color)
+                            }
                         }
                         VStack(alignment: .leading, spacing: 1) {
                             Text(resource.title).font(.lumi(13, weight: .heavy)).foregroundColor(.white)

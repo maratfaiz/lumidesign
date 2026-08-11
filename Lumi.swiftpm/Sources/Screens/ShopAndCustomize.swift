@@ -11,19 +11,19 @@ private struct ShopItem {
 }
 
 private let shopAccessories = [
-    ShopItem(icon: "eyeglasses", name: "Очки мечтателя", price: 80, badge: "Редкий", color: Color(hex: 0x5b9fff)),
-    ShopItem(icon: "headphones", name: "Галакт. наушники", price: 120, badge: "Редкий", color: Color(hex: 0x5b9fff)),
-    ShopItem(icon: "crown.fill", name: "Звёздная корона", price: 100, badge: "Эпический", color: Color(hex: 0xff6ec7)),
+    ShopItem(icon: "icon-glasses", name: "Очки мечтателя", price: 80, badge: "Редкий", color: Color(hex: 0x5b9fff)),
+    ShopItem(icon: "icon-headphones", name: "Галакт. наушники", price: 120, badge: "Редкий", color: Color(hex: 0x5b9fff)),
+    ShopItem(icon: "icon-crown", name: "Звёздная корона", price: 100, badge: "Эпический", color: Color(hex: 0xff6ec7)),
 ]
 private let shopTechniques = [
-    ShopItem(icon: "hands.sparkles.fill", name: "«Самообъятие»", price: 40, badge: nil, color: .white.opacity(0.1)),
-    ShopItem(icon: "book.closed.fill", name: "Дневник эмоций", price: 40, badge: nil, color: .white.opacity(0.1)),
-    ShopItem(icon: "target", name: "Фокус на ценностях", price: 40, badge: nil, color: .white.opacity(0.1)),
+    ShopItem(icon: "icon-selfhug", name: "«Самообъятие»", price: 40, badge: nil, color: .white.opacity(0.1)),
+    ShopItem(icon: "icon-journal", name: "Дневник эмоций", price: 40, badge: nil, color: .white.opacity(0.1)),
+    ShopItem(icon: "icon-target", name: "Фокус на ценностях", price: 40, badge: nil, color: .white.opacity(0.1)),
 ]
 private let shopBoosters = [
-    ShopItem(icon: "snowflake", name: "Заморозка серии", price: 30, badge: nil, color: LumiColor.blueChip.opacity(0.3)),
-    ShopItem(icon: "plus.circle.fill", name: "Доп. задание дня", price: 30, badge: nil, color: .white.opacity(0.1)),
-    ShopItem(icon: "lightbulb.fill", name: "Подсказка в уроке", price: 20, badge: nil, color: LumiColor.purple1.opacity(0.4)),
+    ShopItem(icon: "icon-freeze", name: "Заморозка серии", price: 30, badge: nil, color: LumiColor.blueChip.opacity(0.3)),
+    ShopItem(icon: "icon-plus", name: "Доп. задание дня", price: 30, badge: nil, color: .white.opacity(0.1)),
+    ShopItem(icon: "icon-hint", name: "Подсказка в уроке", price: 20, badge: nil, color: LumiColor.purple1.opacity(0.4)),
 ]
 
 struct ShopView: View {
@@ -31,9 +31,9 @@ struct ShopView: View {
 
     private let filters: [(key: String, label: String, icon: String, color: Color)] = [
         ("popular", "Популярное", "star.fill", LumiColor.yellow),
-        ("accessories", "Аксессуары", "eyeglasses", LumiColor.textBody),
-        ("techniques", "Техники", "book.closed.fill", LumiColor.textBody),
-        ("boosters", "Бустеры", "bolt.fill", LumiColor.textBody),
+        ("accessories", "Аксессуары", "icon-glasses", LumiColor.textBody),
+        ("techniques", "Техники", "icon-journal", LumiColor.textBody),
+        ("boosters", "Бустеры", "icon-bolt", LumiColor.textBody),
     ]
 
     var body: some View {
@@ -45,7 +45,7 @@ struct ShopView: View {
                         .foregroundColor(.white)
                     Spacer()
                     HStack(spacing: 5) {
-                        Image(systemName: "star.fill")
+                        LumiIcon(name: "icon-lumen", size: 14)
                         Text("1230")
                     }
                     .font(.lumi(12, weight: .heavy))
@@ -66,7 +66,11 @@ struct ShopView: View {
                                         .fill(active ? filter.color.opacity(0.16) : Color.white.opacity(0.05))
                                         .overlay(RoundedRectangle(cornerRadius: 14).stroke(active ? filter.color : Color.white.opacity(0.1), lineWidth: active ? 1.5 : 1))
                                         .frame(width: 52, height: 52)
-                                    Image(systemName: filter.icon).font(.system(size: 20)).foregroundColor(active ? filter.color : LumiColor.textBody)
+                                    if filter.icon.hasPrefix("icon-") {
+                                        LumiIcon(name: filter.icon, size: 20).foregroundColor(active ? filter.color : LumiColor.textBody)
+                                    } else {
+                                        Image(systemName: filter.icon).font(.system(size: 20)).foregroundColor(active ? filter.color : LumiColor.textBody)
+                                    }
                                 }
                                 Text(filter.label)
                                     .font(.lumi(10.5, weight: active ? .heavy : .bold))
@@ -122,8 +126,7 @@ struct ShopView: View {
                                 .fill(item.color.opacity(0.12))
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(item.color.opacity(0.5), lineWidth: 1.5))
                                 .aspectRatio(1, contentMode: .fit)
-                            Image(systemName: item.icon)
-                                .font(.system(size: 20))
+                            LumiIcon(name: item.icon, size: 20)
                                 .foregroundColor(item.badge == nil ? LumiColor.textBody : item.color)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                             if let badge = item.badge {
@@ -143,7 +146,7 @@ struct ShopView: View {
                             .multilineTextAlignment(.center)
                             .lineLimit(2)
                         HStack(spacing: 3) {
-                            Image(systemName: "star.fill").font(.system(size: 9))
+                            LumiIcon(name: "icon-lumen", size: 9)
                             Text("\(item.price)")
                         }
                         .font(.lumi(11, weight: .heavy))
@@ -310,7 +313,7 @@ struct CustomizeView: View {
                     if skin.locked || (skin.price != nil && !equipped) {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(hex: 0x0a0819).opacity(0.55))
-                            .overlay(Image(systemName: "lock.fill").foregroundColor(LumiColor.textTertiary))
+                            .overlay(LumiIcon(name: "icon-lock", size: 18).foregroundColor(LumiColor.textTertiary))
                     }
                 }
                 Text(skin.name)
