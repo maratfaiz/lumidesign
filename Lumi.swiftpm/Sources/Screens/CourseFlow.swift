@@ -183,7 +183,7 @@ struct CourseDetailView: View {
                     .font(.lumi(11, weight: .semibold))
                     .foregroundColor(LumiColor.textTertiary)
 
-                MascotPlaceholder(size: 150, systemImage: "headphones", assetName: "mascot-home")
+                MascotPlaceholder(size: 150, systemImage: "headphones", assetName: "mascot-coursepage")
                     .frame(maxWidth: .infinity)
 
                 HStack {
@@ -274,7 +274,7 @@ struct LessonView: View {
                     )
                     .padding(.bottom, 18)
 
-                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-home")
+                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-lesson")
                     .padding(.bottom, 12)
 
                 Text("Урок 3: Замечаем критику")
@@ -356,7 +356,7 @@ struct ExerciseIntroView: View {
                     .foregroundColor(LumiColor.textSecondary)
                     .padding(.bottom, 14)
 
-                MascotPlaceholder(size: 64, systemImage: "exclamationmark.bubble")
+                MascotPlaceholder(size: 64, systemImage: "exclamationmark.bubble", assetName: "mascot-exercise-1")
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 10)
 
@@ -444,7 +444,7 @@ struct LessonCompleteView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 22)
 
-                MascotPlaceholder(size: 190, systemImage: "moon.zzz.fill")
+                MascotPlaceholder(size: 190, systemImage: "moon.zzz.fill", assetName: "mascot-lessoncomplete")
                     .padding(.bottom, 26)
 
                 HStack(spacing: 10) {

@@ -23,10 +23,7 @@ struct Ex1View: View {
                 exerciseHeader(subtitle: "Курс 1 · Замечаем критику", progress: 0.2)
 
                 HStack(alignment: .top, spacing: 10) {
-                    ZStack {
-                        Circle().fill(LumiColor.purple1.opacity(0.2)).frame(width: 34, height: 34)
-                        Image(systemName: "face.smiling").font(.system(size: 15)).foregroundColor(LumiColor.purpleLight)
-                    }
+                    MascotPlaceholder(size: 34, systemImage: "face.smiling", assetName: "mascot-exercise-1")
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Что сегодня сказал внутренний критик?")
                             .font(.lumi(13, weight: .heavy))
@@ -85,7 +82,7 @@ struct Ex1View: View {
                 }
 
                 Spacer(minLength: 12)
-                tipRow(text: "Просто запиши её. Сейчас мы ничего не оцениваем.", icon: "pencil.and.scribble")
+                tipRow(text: "Просто запиши её. Сейчас мы ничего не оцениваем.", icon: "pencil.and.scribble", assetName: "mascot-ex1")
                 PrimaryButton(
                     title: "Продолжить →",
                     isEnabled: !app.criticThought.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -143,7 +140,7 @@ struct Ex2View: View {
                 .padding(.bottom, 44)
 
                 Spacer(minLength: 8)
-                tipRow(text: "Это мысль. Она не обязана быть фактом.", icon: "face.dashed")
+                tipRow(text: "Это мысль. Она не обязана быть фактом.", icon: "face.dashed", assetName: "mascot-ex2")
                 PrimaryButton(title: "Дальше →") { app.go(.ex3) }
             }
         }
@@ -216,7 +213,7 @@ struct Ex3View: View {
                         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: 0xffb347), lineWidth: 2))
                         .padding(.bottom, 20)
 
-                    tipRow(text: "Верно! Это оценка, а не факт.", icon: "hand.point.right.fill")
+                    tipRow(text: "Верно! Это оценка, а не факт.", icon: "hand.point.right.fill", assetName: "mascot-ex3")
                         .padding(.bottom, 14)
 
                     Text("А как бы звучал факт?")
@@ -286,7 +283,7 @@ struct Ex4View: View {
                     .padding(.bottom, 16)
 
                 Spacer(minLength: 8)
-                tipRow(text: "Представь, что ты журналист. Только факты.", icon: "newspaper")
+                tipRow(text: "Представь, что ты журналист. Только факты.", icon: "newspaper", assetName: "mascot-ex4")
                 PrimaryButton(
                     title: "Проверить",
                     isEnabled: !app.criticFactRewrite.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -313,7 +310,7 @@ struct Ex5View: View {
                     .padding(.bottom, 18)
 
                 HStack(spacing: 10) {
-                    MascotPlaceholder(size: 44, systemImage: "text.bubble")
+                    MascotPlaceholder(size: 44, systemImage: "text.bubble", assetName: "mascot-ex5a")
                     Text("«\(app.displayCriticThought)»")
                         .font(.lumi(13, weight: .heavy))
                         .foregroundColor(Color(hex: 0xe5e0f7))
@@ -354,7 +351,7 @@ struct Ex5View: View {
                 }
 
                 Spacer(minLength: 8)
-                tipRow(text: "Мысль есть, но её не нужно принимать за правду.", icon: "sparkles", size: 34)
+                tipRow(text: "Мысль есть, но её не нужно принимать за правду.", icon: "sparkles", size: 34, assetName: "mascot-ex5b")
                 PrimaryButton(title: "Попробовать самому →") { app.go(.lessonComplete) }
             }
         }
@@ -380,9 +377,9 @@ func exerciseHeader(subtitle: String, progress: Double) -> some View {
 }
 
 @ViewBuilder
-func tipRow(text: String, icon: String, size: CGFloat = 56) -> some View {
+func tipRow(text: String, icon: String, size: CGFloat = 56, assetName: String? = nil) -> some View {
     HStack(alignment: .top, spacing: 10) {
-        MascotPlaceholder(size: size, systemImage: icon)
+        MascotPlaceholder(size: size, systemImage: icon, assetName: assetName)
         Text(text)
             .font(.lumi(12.5, weight: .semibold))
             .foregroundColor(LumiColor.textBody)

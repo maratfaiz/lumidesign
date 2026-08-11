@@ -43,7 +43,7 @@ struct Ex6View: View {
                     .padding(.bottom, 16)
 
                 Spacer(minLength: 8)
-                tipRow(text: "А теперь попробуй сказать эти же слова себе. Ты этого заслуживаешь.", icon: "heart.text.square")
+                tipRow(text: "А теперь попробуй сказать эти же слова себе. Ты этого заслуживаешь.", icon: "heart.text.square", assetName: "mascot-ex6")
                 PrimaryButton(
                     title: "Готово",
                     isEnabled: !support.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -111,7 +111,7 @@ struct Ex7View: View {
                 .padding(.bottom, 16)
 
                 Spacer(minLength: 8)
-                tipRow(text: "Отлично! Ты собрал воедино три части сострадания.", icon: "hands.clap.fill")
+                tipRow(text: "Отлично! Ты собрал воедино три части сострадания.", icon: "hands.clap.fill", assetName: "mascot-ex7")
                 PrimaryButton(title: "Далее", isEnabled: app.ex7AllMatched) {
                     guard app.ex7AllMatched else { return }
                     app.go(.ex8)
@@ -209,7 +209,7 @@ struct Ex8View: View {
                 .background(RoundedRectangle(cornerRadius: 12).fill(Color(hex: 0xf4ecd8)))
                 .shadow(color: .black.opacity(0.3), radius: 12, y: 8)
 
-                tipRow(text: "Сохрани это письмо. К нему можно вернуться позже.", icon: "envelope.open.fill")
+                tipRow(text: "Сохрани это письмо. К нему можно вернуться позже.", icon: "envelope.open.fill", assetName: "mascot-ex8")
                     .padding(.top, 14)
                 PrimaryButton(
                     title: "Отправить письмо",
@@ -293,7 +293,7 @@ struct Ex9View: View {
                 }
 
                 Spacer(minLength: 8)
-                tipRow(text: hint, icon: "paperplane.fill")
+                tipRow(text: hint, icon: "paperplane.fill", assetName: "mascot-ex9")
                 PrimaryButton(title: "Далее", isEnabled: app.ex9Selected != nil && app.ex9When != nil) {
                     guard app.ex9Selected != nil, app.ex9When != nil else { return }
                     app.go(.ex10)
@@ -370,7 +370,7 @@ struct Ex10View: View {
                     .padding(.bottom, 14)
 
                 Spacer(minLength: 8)
-                tipRow(text: "Спасибо! Ты живёшь в согласии со своими ценностями.", icon: "heart.circle.fill")
+                tipRow(text: "Спасибо! Ты живёшь в согласии со своими ценностями.", icon: "heart.circle.fill", assetName: "mascot-ex10")
                 PrimaryButton(
                     title: "Готово",
                     isEnabled: !reflection.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

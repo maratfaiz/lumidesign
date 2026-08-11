@@ -131,7 +131,8 @@ struct BreathCompleteView: View {
             title: "Дыхание завершено",
             subtitle: "Ты сделал(а) \(min(6, app.breathElapsed / 19 + 1)) раундов 4-7-8. Тело и разум немного спокойнее",
             mascotIcon: "wind",
-            reward: "+15 Люменов"
+            reward: "+15 Люменов",
+            assetName: "mascot-breathcomplete"
         ) {
             app.breathElapsed = 0
             app.breathPlaying = true
@@ -218,7 +219,8 @@ struct AffirmCompleteView: View {
             title: "Сеанс завершён",
             subtitle: "Ты повторил(а) \(app.affirmations.count) аффирмации. Пусть эти слова останутся с тобой сегодня",
             mascotIcon: "heart.fill",
-            reward: "+15 Люменов"
+            reward: "+15 Люменов",
+            assetName: "mascot-affirmcomplete"
         ) {
             app.go(.home)
         }
@@ -266,7 +268,7 @@ struct MeditationView: View {
                         .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4, 5]))
                         .foregroundColor(Color(hex: 0xc9c2e6).opacity(0.25))
                         .frame(width: 205, height: 205)
-                    MascotPlaceholder(size: 170, systemImage: "moon.stars.fill")
+                    MascotPlaceholder(size: 170, systemImage: "moon.stars.fill", assetName: "mascot-meditation")
                 }
                 .frame(height: 250)
 
@@ -322,7 +324,8 @@ struct MeditationCompleteView: View {
             title: "Медитация завершена",
             subtitle: "Ты провёл(а) \(app.meditationDuration) минут в тишине. Дай себе немного этого спокойствия на весь день",
             mascotIcon: "moon.zzz.fill",
-            reward: "+15 Люменов"
+            reward: "+15 Люменов",
+            assetName: "mascot-meditationcomplete"
         ) {
             app.meditationElapsed = 0
             app.go(.home)
@@ -337,6 +340,7 @@ struct CompletionScreen: View {
     let subtitle: String
     let mascotIcon: String
     let reward: String
+    var assetName: String? = nil
     let action: () -> Void
 
     var body: some View {
@@ -353,7 +357,7 @@ struct CompletionScreen: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
 
-                MascotPlaceholder(size: 170, systemImage: mascotIcon)
+                MascotPlaceholder(size: 170, systemImage: mascotIcon, assetName: assetName)
                     .padding(.vertical, 8)
 
                 HStack(spacing: 6) {

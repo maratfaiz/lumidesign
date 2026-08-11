@@ -21,7 +21,7 @@ struct Ob1View: View {
                 .padding(.top, 14)
 
                 Spacer()
-                MascotPlaceholder(size: 150, systemImage: "questionmark.circle")
+                MascotPlaceholder(size: 150, systemImage: "questionmark.circle", assetName: "mascot-ob1")
                 Spacer()
 
                 HStack(spacing: 10) {
@@ -69,7 +69,7 @@ struct Ob2View: View {
                     .padding(.top, 6)
                     .padding(.bottom, 10)
 
-                MascotPlaceholder(size: 110, systemImage: "person.fill.questionmark")
+                MascotPlaceholder(size: 110, systemImage: "person.fill.questionmark", assetName: "mascot-ob2")
                     .padding(.bottom, 14)
 
                 VStack(spacing: 8) {
@@ -108,7 +108,7 @@ struct Ob3View: View {
                     .padding(.top, 6)
                     .padding(.bottom, 10)
 
-                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-home")
+                MascotPlaceholder(size: 110, systemImage: "headphones", assetName: "mascot-ob3")
                     .padding(.bottom, 20)
 
                 VStack(spacing: 8) {
@@ -147,7 +147,7 @@ struct Ob4View: View {
                     .padding(.top, 6)
                     .padding(.bottom, 10)
 
-                MascotPlaceholder(size: 110, systemImage: "heart.circle")
+                MascotPlaceholder(size: 110, systemImage: "heart.circle", assetName: "mascot-ob4")
                     .padding(.bottom, 20)
 
                 VStack(spacing: 8) {

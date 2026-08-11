@@ -22,7 +22,7 @@ struct PlanReadyView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 22)
 
-                MascotPlaceholder(size: 150, systemImage: "flag.fill")
+                MascotPlaceholder(size: 150, systemImage: "flag.fill", assetName: "mascot-obtrack")
                     .padding(.bottom, 22)
 
                 Text("Твой персональный план готов!")

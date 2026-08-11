@@ -592,10 +592,7 @@ struct CrisisView: View {
         DetailScreen {
             VStack(spacing: 14) {
                 VStack(spacing: 10) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16).fill(Color(hex: 0xff8a65).opacity(0.15)).frame(width: 56, height: 56)
-                        Image(systemName: "exclamationmark.triangle.fill").font(.system(size: 24)).foregroundColor(Color(hex: 0xff8a65))
-                    }
+                    MascotPlaceholder(size: 96, systemImage: "exclamationmark.triangle.fill", assetName: "mascot-crisis")
                     Text("Тебе сейчас тяжело?")
                         .font(.system(size: 19, weight: .black, design: .rounded))
                         .foregroundColor(.white)

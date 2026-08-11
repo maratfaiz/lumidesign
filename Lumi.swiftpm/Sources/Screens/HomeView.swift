@@ -53,10 +53,7 @@ struct HomeContentView: View {
 
             Button { app.go(.shop) } label: {
                 HStack(spacing: 12) {
-                    ZStack {
-                        Circle().fill(LumiColor.purple1.opacity(0.2)).frame(width: 40, height: 40)
-                        Image(systemName: "tshirt.fill").foregroundColor(LumiColor.purpleLight)
-                    }
+                    MascotPlaceholder(size: 40, systemImage: "tshirt.fill", assetName: "mascot-home-wardrobe")
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Создай стиль для Луми и подними ему настроение")
                             .font(.lumi(12, weight: .heavy))
