@@ -45,6 +45,8 @@ struct ProfileWidgetView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
+            WidgetStarField(stars: WidgetStarPresets.smallDeep)
+
             VStack(alignment: .leading, spacing: 9) {
                 ProfileRow(systemImage: "star.fill", tint: LumiWidgetColor.inkDim, label: "Уровень \(snapshot.level)")
 
@@ -62,6 +64,7 @@ struct ProfileWidgetView: View {
                 ProfileRow(systemImage: "diamond.fill", tint: LumiWidgetColor.yellow, label: "\(snapshot.lumens)")
                 ProfileRow(systemImage: "flame.fill", tint: LumiWidgetColor.orange1, label: "\(snapshot.streakCount) дней")
             }
+            .frame(maxWidth: 118, alignment: .leading)
             .padding(16)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
 

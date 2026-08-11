@@ -75,9 +75,10 @@ struct StreakWidgetView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             content
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: 190, alignment: .leading)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 18)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             mascot
                 .frame(width: mascotSize.width, height: mascotSize.height)

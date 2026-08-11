@@ -27,10 +27,13 @@ struct LessonWidgetView: View {
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
+            WidgetStarField(stars: WidgetStarPresets.mediumDeep)
+
             content
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: 190, alignment: .leading)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 18)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(snapshot.lessonCompletedToday ? "mascot-joy" : "mascot-lesson")
                 .resizable()
